@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Include\misc.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\iso-line-terrain.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\histogramd.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\displacement-function.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\iso-line.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\graph.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\iso-vecto-generation-v1.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tin.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\iso-vecto-generation-v2.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\article-utils.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\iso-vecto-generation-v3.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\app-qt.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{6470381c-147d-48f3-bc2a-09366e86804b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{d85d217d-d50b-43dd-a2ad-026500452499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{e5e00721-01b9-410f-9f61-cdfc0b392040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{5b9d72e3-f309-41c8-908e-e30824571b30}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\qtemainwindow.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\window-pipeline.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\misc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\iso-line-terrain.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\histogramd.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\iso-view.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\displacement-function.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\iso-line.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\graph.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\iso-vecto-generation-v1.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\app-test.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\tin.cpp">
+      <Filter>Include</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\iso-vecto-generation-v2.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\article-utils.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\iso-vecto-generation-v3.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\iso-view-moc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\qte-moc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\app-qt.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="UI\interface.ui">
+      <Filter>Interface</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Include\iso-view.h">
+      <Filter>Include</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Include\qte.h">
+      <Filter>Include</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

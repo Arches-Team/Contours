@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8A924807-BFBE-453D-8844-C7293C2CD0D7}</ProjectGuid>
+    <RootNamespace>AppIso</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>AppIso</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)\Out\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Temp\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(QTDIR64)\lib;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)\Out\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Temp\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(QTDIR64)\lib;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;Include\;$(ARCHESLIBDIR)\LibMaya\LibMaya\Include\;$(ARCHESLIBDIR)\LibCore\LibCore\Include\;$(ARCHESLIBDIR)\LibPlatform\LibGL\$(Platform)\Include\;$(QTDIR64)\include\;$(ARCHESLIBDIR)\LibHeightfield\LibHeightField\Include\;$(ARCHESLIBDIR)\LibHeightAnalysis\LibHeightAnalysis\Include\</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ShowIncludes>false</ShowIncludes>
+      <OpenMPSupport>true</OpenMPSupport>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <DisableSpecificWarnings>4458;4127</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>app-qt.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>app-qt.h</ForcedIncludeFiles>
+      <AdditionalOptions>/Zc:__cplusplus /permissive- %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ARCHESLIBDIR)\LibMaya\Out\$(Platform)\$(Configuration)\;$(ARCHESLIBDIR)\LibCore\Out\$(Platform)\$(Configuration)\;$(ARCHESLIBDIR)\LibHeightfield\Out\$(Platform)\$(Configuration)\;$(ARCHESLIBDIR)\LibPlatform\LibGL\$(Platform)\Library\;$(QTDIR64)\lib\;$(ARCHESLIBDIR)\LibHeightAnalysis\Out\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LibHeightAnalysis.lib;LibMaya.lib;LibHeightfield.lib;LibCore.lib;glew32.lib;glu32.lib;opengl32.lib;Qt6Cored.lib;Qt6OpenGLd.lib;Qt6Guid.lib;Qt6Widgetsd.lib;Qt6PrintSupportd.lib;Qt6OpenGLWidgetsd.lib;Qt6Chartsd.lib;Qt6Svgd.lib</AdditionalDependencies>
+    </Link>
+    <QtUic>
+      <QTDIR>$(QTDIR64)</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>Include\ui-%(Filename).h</OutputFile>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;Include\;$(ARCHESLIBDIR)\LibMaya\LibMaya\Include\;$(ARCHESLIBDIR)\LibCore\LibCore\Include\;$(ARCHESLIBDIR)\LibPlatform\LibGL\$(Platform)\Include\;$(QTDIR64)\include\;$(ARCHESLIBDIR)\LibHeightfield\LibHeightField\Include\;$(ARCHESLIBDIR)\LibPath\LibPath\Include;$(ARCHESLIBDIR)\LibHeightAnalysis\LibHeightAnalysis\Include\;E:\Code\eigen-3.4.0\Eigen\src\Core\;E:\Code\eigen-3.4.0\</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <OpenMPSupport>true</OpenMPSupport>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <AdditionalOptions>/DQT_NO_DEBUG /Zc:__cplusplus /permissive- %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>6451;4267</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>app-qt.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>app-qt.h</ForcedIncludeFiles>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(ARCHESLIBDIR)\LibMaya\Out\$(Platform)\$(Configuration)\;$(ARCHESLIBDIR)\LibCore\Out\$(Platform)\$(Configuration)\;$(ARCHESLIBDIR)\LibHeightfield\Out\$(Platform)\$(Configuration)\;$(ARCHESLIBDIR)\LibPlatform\LibGL\$(Platform)\Library\;$(QTDIR64)\lib\;$(ARCHESLIBDIR)\LibHeightAnalysis\Out\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LibHeightAnalysis.lib;LibMaya.lib;LibHeightfield.lib;LibCore.lib;glew32.lib;glu32.lib;opengl32.lib;Qt6Core.lib;Qt6OpenGL.lib;Qt6Gui.lib;Qt6Widgets.lib;Qt6PrintSupport.lib;Qt6OpenGLWidgets.lib;Qt6Charts.lib;Qt6Svg.lib</AdditionalDependencies>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <QtMoc>
+      <QTDIR>$(QTDIR64)</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>Source\moc_%(Filename).cpp</OutputFile>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+    </QtMoc>
+    <QtUic>
+      <QTDIR>$(QTDIR64)</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>Include\ui-%(Filename).h</OutputFile>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\app-qt.h" />
+    <ClInclude Include="Include\article-utils.h" />
+    <ClInclude Include="Include\displacement-function.h" />
+    <ClInclude Include="Include\graph.h" />
+    <ClInclude Include="Include\iso-vecto-generation-v2.h" />
+    <ClInclude Include="Include\iso-vecto-generation-v3.h" />
+    <ClInclude Include="Include\tin.h" />
+    <CustomBuild Include="Include\qte.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR64)\bin\moc.exe -fmaya-qt.h -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Source\%(Filename)-moc.cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR64)\bin\moc.exe</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR64)\bin\moc.exe -fmaya-qt.h -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Source\%(Filename)-moc.cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR64)\bin\moc.exe</AdditionalInputs>
+    </CustomBuild>
+    <ClInclude Include="Include\histogramd.h" />
+    <ClInclude Include="Include\iso-line-terrain.h" />
+    <CustomBuild Include="Include\iso-view.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR64)\bin\moc.exe -fmaya-qt.h -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Source\%(Filename)-moc.cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR64)\bin\moc.exe</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR64)\bin\moc.exe</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Source\%(Filename)-moc.cpp</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR64)\bin\moc.exe -fmaya-qt.h -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
+    </CustomBuild>
+    <ClInclude Include="Include\iso-line.h" />
+    <ClInclude Include="Include\iso-vecto-generation-v1.h" />
+    <ClInclude Include="Include\misc.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\app-qt.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\app-test.cpp" />
+    <ClCompile Include="Source\article-utils.cpp" />
+    <ClCompile Include="Source\displacement-function.cpp" />
+    <ClCompile Include="Source\graph.cpp" />
+    <ClCompile Include="Source\histogramd.cpp" />
+    <ClCompile Include="Source\iso-line-terrain.cpp" />
+    <ClCompile Include="Source\iso-line.cpp" />
+    <ClCompile Include="Source\iso-vecto-generation-v1.cpp" />
+    <ClCompile Include="Source\iso-vecto-generation-v2.cpp" />
+    <ClCompile Include="Source\iso-vecto-generation-v3.cpp" />
+    <ClCompile Include="Source\iso-view-moc.cpp" />
+    <ClCompile Include="Source\iso-view.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\misc.cpp" />
+    <ClCompile Include="Source\qte-moc.cpp" />
+    <ClCompile Include="Source\qtemainwindow.cpp" />
+    <ClCompile Include="Source\tin.cpp" />
+    <ClCompile Include="Source\window-pipeline.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="UI\interface.ui">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR64)\bin\uic.exe UI\%(Filename)%(Extension) -o Include\uic_%(Filename).h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling  UI\%(Filename)%(Extension)  into  Include\uic_%(Filename).h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Include\uic_%(Filename).h</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR64)\bin\uic.exe</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR64)\bin\uic.exe UI\%(Filename)%(Extension) -o Include\uic_%(Filename).h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling  UI\%(Filename)%(Extension)  into  Include\uic_%(Filename).h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Include\uic_%(Filename).h</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR64)\bin\uic.exe</AdditionalInputs>
+    </CustomBuild>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

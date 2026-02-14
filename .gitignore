@@ -1,0 +1,24 @@
+# LaTeX
+
+*.aux
+*.bbl
+*.blg
+*.brf
+*.lbl
+*.log
+*.tps
+*.out
+
+# Visual project
+
+**/.vs
+**/Out/**
+**/Temp/**
+
+**/ui-interface.h
+**/moc_qte.cpp
+**/*.ipch
+Temp
+
+# VSCode
+**/.vscode
