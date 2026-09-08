@@ -1,5 +1,7 @@
 #pragma once
 
+#include "mesh.h"
+
 // FaceOp structure for a Mesh with an infinite point
 // Each vertex points to a face and each face points to its 3 neighbouring faces
 // Note that the Mesh should have no articulation point (TODO: check how to deal with them in the constructor)
@@ -23,13 +25,9 @@ public:
     bool IsBorderVertex(int) const;
     bool IsAloneVertex(int) const;
     bool IsInfiniteTriangle(int) const;
-    bool IsInfinitePoint(int) const;
 
     QVector<int> VertexNeighboursTriangles(int) const;
     QVector<int> VertexNeighboursVertices(int) const;
-
-    // Debug
-    QGraphicsScene* DebugScene(bool = false, bool = false, bool = false, bool = false, bool = false) const;
 
 protected:
     QVector<int> VertexNeighboursTriangles(int, bool) const;
@@ -40,5 +38,4 @@ protected:
     
     int LocalTriangleId(int, int) const;
     int NextTriangleAroundVertex(int, int) const;
-    int PreviousTriangleAroundVertex(int, int) const;
 };

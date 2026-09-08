@@ -1,8 +1,9 @@
 #include "tin.h"
 #include "sampling.h"
-#include "draw.h"
 
 #include "cpu.h"
+
+#include <QtWidgets/QGraphicsScene>
 
 Tin2::Tin2(const Mesh2& mesh) : Mesh2(mesh)
 {
@@ -232,14 +233,6 @@ bool Tin2::IsInfiniteTriangle(int ti) const
 }
 
 /*!
-\brief Return if vi is the infinite point
-*/
-bool Tin2::IsInfinitePoint(int vi) const
-{
-    return vi == InfinitePoint();
-}
-
-/*!
 \brief List of triangles neighbouring vertex i in counterclockwise
 */
 QVector<int> Tin2::VertexNeighboursTriangles(int vi) const
@@ -370,141 +363,4 @@ int Tin2::NextTriangleAroundVertex(int vi, int ti) const
     int next = TriangleFacingVertex(ti, (loc_vi + 1) % 3);
 
     return next;
-}
-
-/*!
-\brief Return the previous counterclockwise triangle id around vertex vi
-\param vi vertex id
-\param ti current triangle id                   (/!\ Should be a triangle around vi)
-\return previous triangle id counterclockwise   (/!\ Can be -1)
-*/
-int Tin2::PreviousTriangleAroundVertex(int vi, int ti) const
-{
-    int loc_vi = LocalTriangleId(ti, vi);
-    int prev = TriangleFacingVertex(ti, (loc_vi + 2) % 3);
-
-    return prev;
-}
-
-/*!
-\brief Debug scene
-\param a bunch of bools to display more or less
-*/
-QGraphicsScene* Tin2::DebugScene(bool borders, bool trianglesNeighbours, bool verticesTriangle, bool verticesNeighboursTriangles, bool verticesNeighboursVertices) const
-{
-    QGraphicsScene* scene = new QGraphicsScene;
-    if (VertexSize() == 0)
-        return scene;
-
-    Ia range = EdgeLengthRange();
-    double r = range[0] / 4.;
-    Box2 b = GetBox();
-    Vector2 border = 2 * Vector2(r, r);
-
-    Box2(b[0] - border, b[1] + border).Draw(*scene, QPen(Qt::white), QBrush(Qt::white));
-
-    // Triangles
-    for (int ti = 0; ti < TriangleSize(); ++ti)
-    {
-        if (borders && IsBorderTriangle(ti))
-            GetTriangle(ti).Draw(*scene, QPen(QBrush(Qt::black), r / 8), QBrush(Qt::cyan));
-        else
-            GetTriangle(ti).Draw(*scene, QPen(QBrush(Qt::black), r / 8));
-    }
-
-    // Neighbouring triangles of triangles
-    if (trianglesNeighbours)
-    {
-        for (int ti = 0; ti < TriangleSize(); ++ti)
-        {
-            Vector2 b1 = GetTriangle(ti).Center();
-            for (int ni = 0; ni < 3; ++ni)
-            {
-                int tni = TriangleFacingVertex(ti, ni);
-                if (!IsInfiniteTriangle(tni))
-                {
-                    Vector2 b2 = GetTriangle(tni).Center();
-                    Vector2 dir = Normalized(b2 - b1);
-                    Vector2 orth = dir.Orthogonal();
-
-                    Segment2 s(b1 + (r / 4) * orth + (r / 3) * dir, b2 + (r / 4) * orth - (r / 3) * dir);
-                    s.DrawArrow(*scene, r / 8, QPen(QBrush(Qt::darkMagenta), r / 8));
-                }
-            }
-        }
-    }
-
-    // Refering triangle of vertices
-    if (verticesTriangle)
-    {
-        for (int vi = 0; vi < VertexSize(); ++vi)
-        {
-            if (!IsAloneVertex(vi))
-            {
-                Vector2 p1 = vertices[vi];
-                Vector2 c = GetTriangle(triangles[vi]).Center();
-                Vector2 dir = c - p1;
-                Segment2 s(p1, p1 + dir * 0.5);
-                s.DrawArrow(*scene, r / 8, QPen(QBrush(Qt::blue), r / 8));
-            }
-        }
-    }
-
-    // Neighbouring triangles of vertices
-    if (verticesNeighboursTriangles)
-    {
-        double min = r;
-        double max = r * 2;
-        for (int vi = 0; vi < VertexSize(); ++vi)
-        {
-            Vector2 p = vertices[vi];
-            auto tis = VertexNeighboursTriangles(vi);
-            int n = tis.size();
-            for (int i = 0; i < n; ++i)
-            {
-                int ti = tis[i];
-                Vector2 c = GetTriangle(ti).Center();
-                Vector2 dir = Normalized(c - p);
-                double t = Math::Lerp(min, max, i / (double)n);
-                Segment2 s(p, p + dir * t);
-                s.DrawArrow(*scene, r / 8, QPen(QBrush(Qt::darkCyan), r / 8));
-            }
-        }
-    }
-
-    // Neighbouring vertices of vertices
-    if (verticesNeighboursVertices)
-    {
-        double min = r;
-        double max = r * 2;
-        for (int vi = 0; vi < VertexSize(); ++vi)
-        {
-            Vector2 p1 = vertices[vi];
-            auto vis = VertexNeighboursVertices(vi);
-            int n = vis.size();
-            for (int i = 0; i < n; ++i)
-            {
-                int vin = vis[i];
-                Vector2 p2 = vertices[vin];
-                Vector2 dir = Normalized(p2 - p1);
-                double t = Math::Lerp(min, max, i / (double)n);
-                Segment2 s(p1, p1 + dir * t);
-                s.DrawArrow(*scene, r / 8, QPen(QBrush(Qt::magenta), r / 8));
-            }
-        }
-    }
-
-    // Points
-    for (int vi = 0; vi < VertexSize(); ++vi)
-    {
-        Vector2 p = vertices[vi];
-        if (borders && IsBorderVertex(vi))
-            scene->addEllipse(p[0] - r / 4, p[1] - r / 4, 2 * r / 4, 2 * r / 4, QPen(QBrush(Qt::black), r / 10), QBrush(Qt::green));
-        else if (borders && IsAloneVertex(vi))
-            scene->addEllipse(p[0] - r / 4, p[1] - r / 4, 2 * r / 4, 2 * r / 4, QPen(QBrush(Qt::black), r / 10), QBrush(Qt::blue));
-        else
-            scene->addEllipse(p[0] - r / 4, p[1] - r / 4, 2 * r / 4, 2 * r / 4, QPen(QBrush(Qt::black), r / 10), QBrush(Qt::red));
-    }
-
-    return scene;
 }

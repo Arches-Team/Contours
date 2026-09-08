@@ -3,36 +3,38 @@
 #include "sampling.h"
 #include "tin.h"
 #include "histogramd.h"
+#include "polygon.h"
+#include "evector.h"
 
 /*
- * Graphe à l'intérieur d'un masque donné, représentant là où il y a du terrain et là où il y a de la "mer".
- * La génération est faite comme ceci :
- * - On étend la box du masque d'une largeur de 4 * radius
- * - On poissonnise toute cette zone étendu = topologyExt
- * - On ne garde que les points à l'intérieur du masque = topology (l'endroit où il y a du terrain)
+ * Graphe ï¿½ l'intï¿½rieur d'un masque donnï¿½, reprï¿½sentant lï¿½ oï¿½ il y a du terrain et lï¿½ oï¿½ il y a de la "mer".
+ * La gï¿½nï¿½ration est faite comme ceci :
+ * - On ï¿½tend la box du masque d'une largeur de 4 * radius
+ * - On poissonnise toute cette zone ï¿½tendu = topologyExt
+ * - On ne garde que les points ï¿½ l'intï¿½rieur du masque = topology (l'endroit oï¿½ il y a du terrain)
  * 
- * Un point du graphe est considéré comme une bordure (ie proche de la mer) si
+ * Un point du graphe est considï¿½rï¿½ comme une bordure (ie proche de la mer) si
  * - Il est dans la zone du masque
- * - Il est adjacent à un sommet de topologyExt qui est dans la box du masque. En gros, si le bord du masque est à 1, on considère que ce n'est pas la mer mais l'intérieur du continent. On ne veut donc pas que ce sommet soit un bord de mer, meme si c'est un bord de topology.
+ * - Il est adjacent ï¿½ un sommet de topologyExt qui est dans la box du masque. En gros, si le bord du masque est ï¿½ 1, on considï¿½re que ce n'est pas la mer mais l'intï¿½rieur du continent. On ne veut donc pas que ce sommet soit un bord de mer, meme si c'est un bord de topology.
  * 
- * Le principe est de donner des valeurs de hauteurs aux points du terrain (ceux de topology) récupérables et modifiables avec `At`
- * Puis on souhaite récupérer les isolignes avec `ContourLines`
+ * Le principe est de donner des valeurs de hauteurs aux points du terrain (ceux de topology) rï¿½cupï¿½rables et modifiables avec `At`
+ * Puis on souhaite rï¿½cupï¿½rer les isolignes avec `ContourLines`
  * 
- * Pour récupérer les isolignes on donne des valeurs à topologyExt et on fait un marching triangles
- * Pour être sûr de toujours avoir des polygones, on procède ainsi :
+ * Pour rï¿½cupï¿½rer les isolignes on donne des valeurs ï¿½ topologyExt et on fait un marching triangles
+ * Pour ï¿½tre sï¿½r de toujours avoir des polygones, on procï¿½de ainsi :
  * - Les valeurs de `topology` ne change pas
- * - les valeurs de la mer (`topologyExt` à l'intérieur de la box du masque) sont mises un peu plus bas que le bord de mer
- * - les autres points de `topologyExt` voisins de `topology` (ceux hors de la box mais avec un voisin direct dans `topology`) sont mis à la valeur du voisin de `topology` le plus proche.
- *   Pourquoi ? Parce que ceci permet que les isolignes récupérés "sortent" de la box. On a ainsi toujours des polygones, et si on cut les isolignes dans la box du masque, on ne voit pas les contours moches du bords qui n'ont aucun sens
- * - les autres valeurs des noeuds de topologyExt sont mise à une valeur très basse pour être sur que le marching triangle sorte toujours des polygones quelle que soit la hauteur.
+ * - les valeurs de la mer (`topologyExt` ï¿½ l'intï¿½rieur de la box du masque) sont mises un peu plus bas que le bord de mer
+ * - les autres points de `topologyExt` voisins de `topology` (ceux hors de la box mais avec un voisin direct dans `topology`) sont mis ï¿½ la valeur du voisin de `topology` le plus proche.
+ *   Pourquoi ? Parce que ceci permet que les isolignes rï¿½cupï¿½rï¿½s "sortent" de la box. On a ainsi toujours des polygones, et si on cut les isolignes dans la box du masque, on ne voit pas les contours moches du bords qui n'ont aucun sens
+ * - les autres valeurs des noeuds de topologyExt sont mise ï¿½ une valeur trï¿½s basse pour ï¿½tre sur que le marching triangle sorte toujours des polygones quelle que soit la hauteur.
  * 
- * Il n'y a pas d'intéret à demander des contours à hauteur plus basse que la valeur de la mer, le résultat n'aurait aucun sens.
+ * Il n'y a pas d'intï¿½ret ï¿½ demander des contours ï¿½ hauteur plus basse que la valeur de la mer, le rï¿½sultat n'aurait aucun sens.
  * 
- * TLDR: tout est fait avec `topology`. `topologyExt` sert juste à définir les bordures exactes et à avoir des isolignes facilement récupérable comme des polygones.
+ * TLDR: tout est fait avec `topology`. `topologyExt` sert juste ï¿½ dï¿½finir les bordures exactes et ï¿½ avoir des isolignes facilement rï¿½cupï¿½rable comme des polygones.
  * 
- * TODO: pour le moment, cette façon de faire ne gère pas les contours qui sont très fins. Par exemple, si l'utilisateur donne une crevasse fine représentant une fine bande de mer qui rentre dans la terre, les triangles n'existent pas dans `topology` donc c'est parfait, mais l'extraction de l'isolignes "0" va considérer tous ces triangles comme à l'intérieur de la zone car ils sont dans `topologyExt`. Si on ne les mets pas, l'iso ne serait pas récupérable avec le marching triangles. On a deux solutions :
- * - considérer que si le sample n'est pas assez fin, on oublie juste la crevasse
- * - essayer de récupérer les arêtes qui rejoignent deux points qui traversent cette crevasse (en gros les voisins dans `topologyExt` qui ne sont pas dans `topology`), et dans ce cas, essayer de trouver une façon de donner l'iso externe à partir de là (par exemple le niveau de la mer serait au milieu des deux points, donc si on veut prendre une iso plus haute, on verrait la crevasse), mais c'est pas évident à implémenter parce qu'on se retrouve avec potentiellement 1, 2 ou 4 points par triangle.
+ * TODO: pour le moment, cette faï¿½on de faire ne gï¿½re pas les contours qui sont trï¿½s fins. Par exemple, si l'utilisateur donne une crevasse fine reprï¿½sentant une fine bande de mer qui rentre dans la terre, les triangles n'existent pas dans `topology` donc c'est parfait, mais l'extraction de l'isolignes "0" va considï¿½rer tous ces triangles comme ï¿½ l'intï¿½rieur de la zone car ils sont dans `topologyExt`. Si on ne les mets pas, l'iso ne serait pas rï¿½cupï¿½rable avec le marching triangles. On a deux solutions :
+ * - considï¿½rer que si le sample n'est pas assez fin, on oublie juste la crevasse
+ * - essayer de rï¿½cupï¿½rer les arï¿½tes qui rejoignent deux points qui traversent cette crevasse (en gros les voisins dans `topologyExt` qui ne sont pas dans `topology`), et dans ce cas, essayer de trouver une faï¿½on de donner l'iso externe ï¿½ partir de lï¿½ (par exemple le niveau de la mer serait au milieu des deux points, donc si on veut prendre une iso plus haute, on verrait la crevasse), mais c'est pas ï¿½vident ï¿½ implï¿½menter parce qu'on se retrouve avec potentiellement 1, 2 ou 4 points par triangle.
  */
 class GraphPoisson
 {
@@ -40,7 +42,7 @@ protected:
 	double radius;
 	ScalarField2 mask;
 	QSharedPointer<Tin2> topology;	  // pointer to avoid duplication in copy constructor
-	QSharedPointer<Tin2> topologyExt; // tous les points et triangles dans la box étendue de 4*r
+	QSharedPointer<Tin2> topologyExt; // tous les points et triangles dans la box ï¿½tendue de 4*r
 	QVector<int> topoToExt;			  // comment passer d'un indice de `topology` vers `topologyExt`
 	QVector<int> extToTopo;			  // l'inverse (= -1 lorsque le point n'est pas dans `topology`)
 	QVector<double> values;
@@ -67,7 +69,6 @@ public:
 	QSet<double> Values() const;
 	QVector<double> SortedValues() const;
 	Box2 GetBox() const;
-	QSharedPointer<Tin2> Topology() const;
 	double Radius() const;
 	int Size() const;
 
@@ -150,11 +151,6 @@ inline double& GraphPoisson::At(int i)
 	return values[i];
 }
 
-inline QSharedPointer<Tin2> GraphPoisson::Topology() const
-{
-	return topology;
-}
-
 // The radius used to generate the Poisson
 inline double GraphPoisson::Radius() const
 {
@@ -170,7 +166,7 @@ inline QSet<int> GraphPoisson::Neighbours(int i) const
 {
 	QSet<int> neighs;
 	
-	// TODO: On utilise topologyExt car elle nous permet d'éviter les bugs de points seuls et ceux des points d'articulation qui ne sont pas pris en compte dans le TIN.
+	// TODO: On utilise topologyExt car elle nous permet d'ï¿½viter les bugs de points seuls et ceux des points d'articulation qui ne sont pas pris en compte dans le TIN.
 	int ei = topoToExt[i];
 	for (int ni : topologyExt->VertexNeighboursVertices(ei))
 	{
@@ -188,8 +184,8 @@ inline bool GraphPoisson::IsBorder(int i) const
 		return false;
 
 	int ei = topoToExt[i];
-	// On est obligé pour cela sinon ils embetent (ils peuvent être dans un coin de la carte donc pas en bordure, mais en meme temps personne ne peut y accéder)
-	// On le fait dans topologyExt car on utilise topologyExt pour connaitre les voisins, ça évite au + les points seuls et les points d'articulation qui ne sont pas pris en compte dans le TIN.
+	// On est obligï¿½ pour cela sinon ils embetent (ils peuvent ï¿½tre dans un coin de la carte donc pas en bordure, mais en meme temps personne ne peut y accï¿½der)
+	// On le fait dans topologyExt car on utilise topologyExt pour connaitre les voisins, ï¿½a ï¿½vite au + les points seuls et les points d'articulation qui ne sont pas pris en compte dans le TIN.
 	//if (topology->IsAloneVertex(i))
 	//	return true;
 	if (topologyExt->IsAloneVertex(ei))
@@ -200,7 +196,7 @@ inline bool GraphPoisson::IsBorder(int i) const
 		// Voisin de la topologie globale qui n'est pas dans le masque = potentielle bordure
 		if (ni == -1)
 		{
-			// Points dans la box défini par le masque = point de l'extérieur
+			// Points dans la box dï¿½fini par le masque = point de l'extï¿½rieur
 			if (ExteriorPointInsideMask(eni))
 			{
 				return true;

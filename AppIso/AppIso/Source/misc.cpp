@@ -3,7 +3,7 @@
 #include "tin.h"
 
 /*
- * Fait un DiskSampling delaunaysé à l'intérieur de box
+ * Fait un DiskSampling delaunaysï¿½ ï¿½ l'intï¿½rieur de box
  */
 Mesh2 Misc::DelaunayPointsInBox(const Box2& box, double r)
 {
@@ -15,7 +15,7 @@ Mesh2 Misc::DelaunayPointsInBox(const Box2& box, double r)
 
 	// Get all triangles of the sample
 	// attention la technique ne marche pas si on peut faire une boucle de 3 sommets qui n'est pas un triangle dans le sample
-	// a priori ça m'arrive que si le sample est trop petit
+	// a priori ï¿½a m'arrive que si le sample est trop petit
 	QVector<QPoint> pointIndices;
 	int n = sample.Size();
 
@@ -182,21 +182,6 @@ QVector<int> Misc::IndicesBetweenMeshes(const Mesh2& m1, const Mesh2& m2, const 
 			if (find) break;
 		}
 	}
-
-	// Versione n O(n^2) pas ouf
-	//for (int vi1 = 0; vi1 < m1.VertexSize(); ++vi1)
-	//{
-	//	Vector2 v1 = m1.Vertex(vi1);
-	//	for (int vi2 = 0; vi2 < m2.VertexSize(); ++vi2)
-	//	{
-	//		Vector2 v2 = m2.Vertex(vi2);
-	//		if (Norm(v1 - v2) < mindist)
-	//		{
-	//			match[vi1] = vi2;
-	//			break;
-	//		}
-	//	}
-	//}
 
 	return match;
 }

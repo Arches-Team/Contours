@@ -7,9 +7,9 @@ using namespace std;
 #define NOT_INIT_ZONE_VALUE 99999999 // considering these values are not real height values
 
 /*
- * Les graphes R, Z et P ont la meme topology (celle donnée par z)
+ * Les graphes R, Z et P ont la meme topology (celle donnï¿½e par z)
  *
- * \param z Les différentes zones, qu'importe leur valeur, elles seront triées de la plus petite à la plus grande, on va toujours commencer par la plus petite
+ * \param z Les diffï¿½rentes zones, qu'importe leur valeur, elles seront triï¿½es de la plus petite ï¿½ la plus grande, on va toujours commencer par la plus petite
  * \param p Les valeurs de proba qu'on veut donner. Elles doivent se situer dans l'intervalle [0, 1]
  */
 IsoVectoGenerationV2::IsoVectoGenerationV2(const GraphPoisson& z, const ScalarField2& p) : R(z, INITIAL_VALUE), Z(z), P(z)
@@ -17,7 +17,7 @@ IsoVectoGenerationV2::IsoVectoGenerationV2(const GraphPoisson& z, const ScalarFi
 	P.SetValueFromScalarField(p);
 	for (int i = 0; i < P.Size(); ++i)
 	{
-		// Pour éviter les erreurs avec des probas nulles
+		// Pour ï¿½viter les erreurs avec des probas nulles
 		P[i] = Math::Min(0.999, Math::Max(0.001, P[i]));
 	}
 }
@@ -26,8 +26,8 @@ IsoVectoGenerationV2::IsoVectoGenerationV2(const GraphPoisson& z, const ScalarFi
  * Generate a graph poisson with value from 0 to n (the size of the graph)
  * The result can be recover with Result();
  * 
- * \param debug Si != 0, nombre de debug à faire (un tous les `debug` frames)
- * \param root Le dossier root + potentiel début de nom pour les images de debug
+ * \param debug Si != 0, nombre de debug ï¿½ faire (un tous les `debug` frames)
+ * \param root Le dossier root + potentiel dï¿½but de nom pour les images de debug
  */
 void IsoVectoGenerationV2::Generate(int d, const QString& r)
 {
@@ -76,7 +76,7 @@ void IsoVectoGenerationV2::PreProcess()
 	R = GraphPoisson(Z, INITIAL_VALUE);
 	idZones.clear();
 
-	// Récupération de toutes les zones
+	// Rï¿½cupï¿½ration de toutes les zones
 	for (int nodeId = 0; nodeId < Z.Size(); ++nodeId)
 	{
 		idZones.insert(Z.At(nodeId));
@@ -108,7 +108,7 @@ void IsoVectoGenerationV2::CreateBorders()
 	borders.clear();
 	currentZoneNodes.clear();
 
-	// On assigne directement les éléments proche de la cote
+	// On assigne directement les ï¿½lï¿½ments proche de la cote
 	for (int nodeId = 0; nodeId < Z.Size(); ++nodeId)
 	{
 		if (Z.At(nodeId) == currentZone && Z.IsBorder(nodeId))
@@ -120,15 +120,15 @@ void IsoVectoGenerationV2::CreateBorders()
 	// Initialisation des Edens
 	for (int nodeId = 0; nodeId < Z.Size(); ++nodeId)
 	{
-		// Un membre de la zone ne peut pas se situer sur une bordure dès le début
-		// Il est possible que le noeud soit de la zone, mais soit déjà assigné (dans R donc) s'il était sur la bordure, donc on ne veut pas le réassigner.
+		// Un membre de la zone ne peut pas se situer sur une bordure dï¿½s le dï¿½but
+		// Il est possible que le noeud soit de la zone, mais soit dï¿½jï¿½ assignï¿½ (dans R donc) s'il ï¿½tait sur la bordure, donc on ne veut pas le rï¿½assigner.
 		if (Z[nodeId] == currentZone && R[nodeId] == INITIAL_VALUE)
 		{
 			currentZoneNodes.insert(nodeId);
 			R[nodeId] = NOT_INIT_ZONE_VALUE;
 		}
-		// La bordure consiste en les éléments de la zone plus basse qui sont au bord d'un élément de la zone actuelle
-		// Lorsque c'est la première zone, la bordure est constitué des gens déjà défini (d'où le <= et pas <)
+		// La bordure consiste en les ï¿½lï¿½ments de la zone plus basse qui sont au bord d'un ï¿½lï¿½ment de la zone actuelle
+		// Lorsque c'est la premiï¿½re zone, la bordure est constituï¿½ des gens dï¿½jï¿½ dï¿½fini (d'oï¿½ le <= et pas <)
 		else if (Z[nodeId] <= currentZone)
 		{
 			for (int neighId : Z.Neighbours(nodeId))
@@ -177,7 +177,7 @@ bool IsoVectoGenerationV2::ChooseNextNode()
 	static Random r;
 	while (true)
 	{
-		// On récupère un élément de bordure
+		// On rï¿½cupï¿½re un ï¿½lï¿½ment de bordure
 		int parent = GetRandomNode();
 
 		if (parent == -1)
@@ -185,7 +185,7 @@ bool IsoVectoGenerationV2::ChooseNextNode()
 			return false;
 		}
 
-		// On choisit un des voisins de manière aléatoire
+		// On choisit un des voisins de maniï¿½re alï¿½atoire
 		QVector<int> neighs;
 		for (int neigh : Z.Neighbours(parent))
 		{
@@ -196,8 +196,8 @@ bool IsoVectoGenerationV2::ChooseNextNode()
 		}
 
 		// Un noeud est dans la bordure s'il a au moins un voisin non choisi
-		// On enlève un noeud de l'ensemble des bordures que lorsqu'on le choisi aléatoirement et qu'on se rend compte que tous les voisins sont choisis
-		// TODO: c'est sans doute plus rapide de garder le set le plus petit possible à chaque fois, mais c'est plus clair et plus rapide à coder comme ça
+		// On enlï¿½ve un noeud de l'ensemble des bordures que lorsqu'on le choisi alï¿½atoirement et qu'on se rend compte que tous les voisins sont choisis
+		// TODO: c'est sans doute plus rapide de garder le set le plus petit possible ï¿½ chaque fois, mais c'est plus clair et plus rapide ï¿½ coder comme ï¿½a
 		if (!neighs.empty())
 		{
 			lastChosen = neighs[r.Integer(neighs.size())];
@@ -218,8 +218,7 @@ bool IsoVectoGenerationV2::ChooseNextNode()
 	}
 }
 
-
-// Renvoie un noeud aléatoire, en fonction des bordures données.
+// Renvoie un noeud alï¿½atoire, en fonction des bordures donnï¿½es.
 int IsoVectoGenerationV2::GetRandomNode()
 {
 	static Random r = Random::R239;
@@ -229,7 +228,7 @@ int IsoVectoGenerationV2::GetRandomNode()
 		cumul += P[ind];
 	}
 
-	// Si aucun point ne peut être choisi, on n'en choisi pas
+	// Si aucun point ne peut ï¿½tre choisi, on n'en choisi pas
 	if (cumul == 0)
 		return -1;
 

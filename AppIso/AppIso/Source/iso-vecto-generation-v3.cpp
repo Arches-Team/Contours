@@ -7,18 +7,18 @@ using namespace std;
 #define NOT_INIT_ZONE_VALUE 99999999 // considering these values are not real height values
 
 /*
- * Les graphes R, Z et P ont la meme topology (celle donnée par z)
+ * Les graphes R, Z et P ont la meme topology (celle donnï¿½e par z)
  *
- * \param z Les différentes zones, qu'importe leur valeur, elles seront triées de la plus petite à la plus grande, on va toujours commencer par la plus petite
+ * \param z Les diffï¿½rentes zones, qu'importe leur valeur, elles seront triï¿½es de la plus petite ï¿½ la plus grande, on va toujours commencer par la plus petite
  * \param p Les valeurs de proba qu'on veut donner. Elles doivent se situer dans l'intervalle [0, 1]
- * \param exactT Permet de dire si on veut suivre exactement T ou non (si oui on peut avoir des zones endoréiques)
+ * \param exactT Permet de dire si on veut suivre exactement T ou non (si oui on peut avoir des zones endorï¿½iques)
  */
 IsoVectoGenerationV3::IsoVectoGenerationV3(const GraphPoisson& z, const ScalarField2& p, bool withEndoreicZones) : R(z, INITIAL_VALUE), Z(z), P(z), TLow(z), THigh(z), T(z), withEndoreicZones(withEndoreicZones)
 {
 	P.SetValueFromScalarField(p);
 	for (int i = 0; i < P.Size(); ++i)
 	{
-		// Pour éviter les erreurs avec des probas nulles
+		// Pour ï¿½viter les erreurs avec des probas nulles
 		P[i] = Math::Min(0.999, Math::Max(0.001, P[i]));
 	}
 }
@@ -27,8 +27,8 @@ IsoVectoGenerationV3::IsoVectoGenerationV3(const GraphPoisson& z, const ScalarFi
  * Generate a graph poisson with value from 0 to n (the size of the graph)
  * The result can be recover with Result();
  *
- * \param debug Si != 0, nombre de debug à faire (un tous les `debug` frames) + les zones TLow, THigh et T
- * \param root Le dossier root + potentiel début de nom pour les images de debug
+ * \param debug Si != 0, nombre de debug ï¿½ faire (un tous les `debug` frames) + les zones TLow, THigh et T
+ * \param root Le dossier root + potentiel dï¿½but de nom pour les images de debug
  */
 GraphPoisson IsoVectoGenerationV3::Generate(int d, const QString& r)
 {
@@ -94,7 +94,7 @@ void IsoVectoGenerationV3::PreProcess()
 	edenDesc.clear();
 	edenFinal.clear();
 
-	// Récupération de toutes les zones
+	// Rï¿½cupï¿½ration de toutes les zones
 	for (int nodeId = 0; nodeId < Z.Size(); ++nodeId)
 	{
 		idZones.insert(Z.At(nodeId));
@@ -128,7 +128,7 @@ void IsoVectoGenerationV3::CreateBorders()
 	externalBorders.clear();
 	currentZoneNodes.clear();
 
-	// On assigne directement les éléments proche de la cote
+	// On assigne directement les ï¿½lï¿½ments proche de la cote
 	for (int nodeId = 0; nodeId < Z.Size(); ++nodeId)
 	{
 		if (Z.At(nodeId) == currentZone && Z.IsBorder(nodeId))
@@ -140,8 +140,8 @@ void IsoVectoGenerationV3::CreateBorders()
 	// Initialisation des Edens
 	for (int nodeId = 0; nodeId < Z.Size(); ++nodeId)
 	{
-		// Un membre de la zone ne peut pas se situer sur une bordure dès le début
-		// Il est possible que le noeud soit de la zone, mais soit déjà assigné (dans R donc) s'il était sur la bordure, donc on ne veut pas le réassigner.
+		// Un membre de la zone ne peut pas se situer sur une bordure dï¿½s le dï¿½but
+		// Il est possible que le noeud soit de la zone, mais soit dï¿½jï¿½ assignï¿½ (dans R donc) s'il ï¿½tait sur la bordure, donc on ne veut pas le rï¿½assigner.
 		if (Z[nodeId] == currentZone && R[nodeId] == INITIAL_VALUE)
 		{
 			currentZoneNodes.insert(nodeId);
@@ -150,7 +150,7 @@ void IsoVectoGenerationV3::CreateBorders()
 			T[nodeId] = NOT_INIT_ZONE_VALUE;
 			R[nodeId] = NOT_INIT_ZONE_VALUE;
 		}
-		// Les bordures sont les éléments des zones externes qui sont au bord d'un élément de la zone actuelle
+		// Les bordures sont les ï¿½lï¿½ments des zones externes qui sont au bord d'un ï¿½lï¿½ment de la zone actuelle
 		else
 		{
 			TLow[nodeId] = INITIAL_VALUE;
@@ -208,14 +208,14 @@ void IsoVectoGenerationV3::DoubleEdenNodesAssignments()
 		}
 	}
 
-	// T représente le pourcentage asc / (desc + asc) de l'eden
-	// Plus on se rapproche de 1 et plus on est haut car proche de la barrière haute (et inversement)
-	// Dans certain cas (sommet de montagne), on n'a pas de valeur desc, dans ce cas, on considère également une valeur dans [0, 1] pour pouvoir trier.
-	// Inversement dans certain cas (zone endoréique), on n'a pas de valeur asc, on fait un calcul similaire pour avoir une valeur dans [0, 1].
-	// Lorsqu'on est sur un sommet on donne la valeur (n étant le nombre d'éléments dans la zone)
+	// T reprï¿½sente le pourcentage asc / (desc + asc) de l'eden
+	// Plus on se rapproche de 1 et plus on est haut car proche de la barriï¿½re haute (et inversement)
+	// Dans certain cas (sommet de montagne), on n'a pas de valeur desc, dans ce cas, on considï¿½re ï¿½galement une valeur dans [0, 1] pour pouvoir trier.
+	// Inversement dans certain cas (zone endorï¿½ique), on n'a pas de valeur asc, on fait un calcul similaire pour avoir une valeur dans [0, 1].
+	// Lorsqu'on est sur un sommet on donne la valeur (n ï¿½tant le nombre d'ï¿½lï¿½ments dans la zone)
 	//			asc / n
-	// Cela permet aux sommets proches d'être directement choisi et de ne pas empiéter sur ceux qui veulent aller haut
-	// Avec le meme argument, pour les zones endoréique on va donner
+	// Cela permet aux sommets proches d'ï¿½tre directement choisi et de ne pas empiï¿½ter sur ceux qui veulent aller haut
+	// Avec le meme argument, pour les zones endorï¿½ique on va donner
 	//			(n - desc) / n
 	// Ainsi on se rapproche fort de n dans ces zones
 
@@ -254,18 +254,18 @@ bool IsoVectoGenerationV3::DoubleEdenChooseNextNode(int valueToGive, bool intern
 	static Random r;
 	while (true)
 	{
-		// On récupère un élément de bordure (on inverse les proba si on vient de l'intérieur (phase descendante)
+		// On rï¿½cupï¿½re un ï¿½lï¿½ment de bordure (on inverse les proba si on vient de l'intï¿½rieur (phase descendante)
 		int parent = GetRandomNode(borders, internal);
 
 		// Certaines zones n'ont pas de bordures internes (isos de pics)
-		// Certaines zones n'ont pas de bordures externes (isos endoréique)
+		// Certaines zones n'ont pas de bordures externes (isos endorï¿½ique)
 		// Donc il est possible qu'on ne puisse plus grossir
 		if (parent == -1)
 		{
 			return false;
 		}
 
-		// On choisit un des voisins de manière aléatoire
+		// On choisit un des voisins de maniï¿½re alï¿½atoire
 		QVector<int> neighs;
 		for (int neigh : Z.Neighbours(parent))
 		{
@@ -276,8 +276,8 @@ bool IsoVectoGenerationV3::DoubleEdenChooseNextNode(int valueToGive, bool intern
 		}
 
 		// Un noeud est dans la bordure s'il a au moins un voisin non choisi
-		// On enlève un noeud de l'ensemble des bordures que lorsqu'on le choisi aléatoirement et qu'on se rend compte que tous les voisins sont choisis
-		// TODO: c'est sans doute plus rapide de garder le set le plus petit possible à chaque fois, mais c'est plus clair et plus rapide à coder comme ça
+		// On enlï¿½ve un noeud de l'ensemble des bordures que lorsqu'on le choisi alï¿½atoirement et qu'on se rend compte que tous les voisins sont choisis
+		// TODO: c'est sans doute plus rapide de garder le set le plus petit possible ï¿½ chaque fois, mais c'est plus clair et plus rapide ï¿½ coder comme ï¿½a
 		if (!neighs.empty())
 		{
 			lastChosen = neighs[r.Integer(neighs.size())];
@@ -297,7 +297,7 @@ void IsoVectoGenerationV3::FinalNodesAssignments()
 {
 	int sizeZone = currentZoneNodes.size();
 
-	// On assigne selon l'ordre de T, meme si cela fait des zones endoréiques
+	// On assigne selon l'ordre de T, meme si cela fait des zones endorï¿½iques
 	if (withEndoreicZones)
 	{
 		QVector<QPair<int, double>> remainings;
@@ -314,7 +314,7 @@ void IsoVectoGenerationV3::FinalNodesAssignments()
 			R[e.first] = GetNextHeight();
 		}
 	}
-	// On assigne selon l'ordre de T, mais seulement en fonction des éléments de T proche de la bordure actuelle
+	// On assigne selon l'ordre de T, mais seulement en fonction des ï¿½lï¿½ments de T proche de la bordure actuelle
 	else
 	{
 		for (int i = 0; i < sizeZone; ++i)
@@ -350,7 +350,7 @@ bool IsoVectoGenerationV3::FinalChooseNextNode()
 		return false;
 	}
 
-	// On récupère l'élément de la bordure à valeur la plus basse (PAS DE PROBA)
+	// On rï¿½cupï¿½re l'ï¿½lï¿½ment de la bordure ï¿½ valeur la plus basse (PAS DE PROBA)
 	lastChosen = *accessibleElements.begin();
 	double smallest = T[lastChosen];
 	for (int p : accessibleElements)
@@ -362,7 +362,7 @@ bool IsoVectoGenerationV3::FinalChooseNextNode()
 		}
 	}
 
-	// Tous les voisins non assignés deviennent des éléments accessibles
+	// Tous les voisins non assignï¿½s deviennent des ï¿½lï¿½ments accessibles
 	for (int neigh : Z.Neighbours(lastChosen))
 	{
 		if (R[neigh] == NOT_INIT_ZONE_VALUE)
@@ -381,19 +381,19 @@ bool IsoVectoGenerationV3::FinalChooseNextNode()
 	return true;
 }
 
-// Renvoie un noeud aléatoire, en fonction des bordures données. On inverse lorsqu'on part de la bordure externe pour que les probas signifient la meme chose
+// Renvoie un noeud alï¿½atoire, en fonction des bordures donnï¿½es. On inverse lorsqu'on part de la bordure externe pour que les probas signifient la meme chose
 int IsoVectoGenerationV3::GetRandomNode(const QSet<int>& borders, bool inverseProba)
 {
 	static Random r = Random::R239;
 	double cumul = 0;
 	for (int ind : borders)
 	{
-		// TODO: normalement les probas vont de 0 à 1, donc c'est plus simple de faire ça pour inverser les probas, mais ptetre faire différemment
+		// TODO: normalement les probas vont de 0 ï¿½ 1, donc c'est plus simple de faire ï¿½a pour inverser les probas, mais ptetre faire diffï¿½remment
 		if (inverseProba) cumul += 1 - P[ind];
 		else			  cumul += P[ind];
 	}
 
-	// Si aucun point ne peut être choisi, on n'en choisi pas
+	// Si aucun point ne peut ï¿½tre choisi, on n'en choisi pas
 	if (cumul == 0)
 		return -1;
 

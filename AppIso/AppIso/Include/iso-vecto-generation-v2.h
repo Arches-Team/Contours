@@ -4,20 +4,18 @@
 #include "noise.h"
 #include "graph.h"
 #include "iso-line.h"
-#include "draw.h"
-
 
 // Version 2 vectoriel
 // Buts initiaux de la V2:
 // - Copie de la version simple eden avec zones (V5) mais en vectoriel
-// - garder les amélioration de la V1 vectoriel
+// - garder les amï¿½lioration de la V1 vectoriel
 
 class IsoVectoGenerationV2
 {
 protected:
 	GraphPoisson R;				// Les valeurs de hauteur
-	GraphPoisson Z;				// Les différentes zones
-	GraphPoisson P;				// Les valeurs de proba (même graphe que Z)
+	GraphPoisson Z;				// Les diffï¿½rentes zones
+	GraphPoisson P;				// Les valeurs de proba (mï¿½me graphe que Z)
 
 	// parameters used in protected functions
 	int nbAssigned = 0;
@@ -27,7 +25,7 @@ protected:
 	QSet<int> currentZoneNodes;	// Ensemble des sommets du graphe dans la zone actuelle
 	QSet<int> borders;			// Ensemble des sommets du graphe qui sont sur la bordure de la zone actuelle
 
-	QSet<double> idZones;		// Les différentes valeurs dans Z, représentant les différentes zones
+	QSet<double> idZones;		// Les diffï¿½rentes valeurs dans Z, reprï¿½sentant les diffï¿½rentes zones
 
 	// debug
 	int debug;

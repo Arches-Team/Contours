@@ -1,5 +1,10 @@
 #pragma once
 
+#include "scalarfield.h"
+#include "palette.h"
+
+#include <QtWidgets/QGraphicsScene>
+
 class Ia;
 class Histogram;
 
@@ -28,22 +33,14 @@ public:
 	double GetKey(int) const;
 	void Remove(int); // Do not use, or be aware that it changes every previous indices
 
-	int UpperKey(double) const;
-	int LowerKey(double) const;
-	int ClosestKey(double) const;
-
 	int MaxValue() const;
-	int MinValue() const;
 	double GetSum() const;
 
-	HistogramD ReversedHistogram(bool = false) const;
-	HistogramD CumulativeHistogram() const;
-	HistogramD NormalizedHistogram(double = 0.0, double = 1.0) const;
 	HistogramD Ceil() const;
 	HistogramD Floor() const;
 
 	Histogram ToHistogram(int) const;
-	// Ne permet pas de différencier des histogrammes de valeurs différentes, car s'adapte à la hauteur max des bins
+	// Ne permet pas de diffï¿½rencier des histogrammes de valeurs diffï¿½rentes, car s'adapte ï¿½ la hauteur max des bins
 	void Draw(QGraphicsScene&, const GenericPalette & = Palette(QVector<QColor>({Qt::white})), double = 100, double = 100) const;
 	
 	friend std::ostream& operator<<(std::ostream&, const HistogramD&);

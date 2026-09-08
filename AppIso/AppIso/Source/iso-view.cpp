@@ -1,13 +1,13 @@
 #include "iso-view.h"
-#include "draw.h"
 
 #include <QtWidgets/QScrollbar>
+#include <QtGui/QMouseEvent>
 
 using namespace std;
 
 IsoView::IsoView(QWidget* parent) : QGraphicsView(parent), radiusInMeters(1000), showCircle(false), isDrawing(false), showPath(false), showProtectedZone(false)
 {
-	// Sans ça, impossible de suivre le curseur si aucun bouton n'est appuyé.
+	// Sans ï¿½a, impossible de suivre le curseur si aucun bouton n'est appuyï¿½.
 	setMouseTracking(true);
     setDragMode(QGraphicsView::ScrollHandDrag);
 
@@ -39,17 +39,7 @@ void IsoView::ResetView()
         rect = sceneBackgroundItem->rect();
     resetTransform();  // Clear previous scale, zoom, rotate, etc.
     fitInView(rect, Qt::KeepAspectRatio);
-    scale(1, -1); // Pour que l'image soit à l'endroit, car Qt met les y vers le bas et pas vers le haut comme nous
-}
-
-void IsoView::ResetViewRect()
-{
-    if (isos == nullptr)
-        return;
-
-    Box2 b = isos->GetBox();
-    b.Scale(1.01);
-    SetViewRect(b);
+    scale(1, -1); // Pour que l'image soit ï¿½ l'endroit, car Qt met les y vers le bas et pas vers le haut comme nous
 }
 
 void IsoView::SetViewRect(const Box2& b)
@@ -261,18 +251,6 @@ void IsoView::mouseReleaseEvent(QMouseEvent* event)
     QGraphicsView::mouseReleaseEvent(event);
 }
 
-//void IsoView::enterEvent(QEnterEvent* event)
-//{
-//    Q_UNUSED(event);
-//    viewport()->update();
-//}
-//
-//void IsoView::leaveEvent(QEvent* event)
-//{
-//    Q_UNUSED(event);
-//    viewport()->update();
-//}
-
 void IsoView::drawForeground(QPainter* painter, const QRectF& rect)
 {
     Q_UNUSED(rect);
@@ -353,17 +331,6 @@ FixedSizePointItem::FixedSizePointItem(const QPointF& p, qreal r) : position(p),
 {
     setPos(p);
     setFlag(QGraphicsItem::ItemIgnoresTransformations);
-}
-
-void FixedSizePointItem::SetOutline(qreal s, const QColor& c)
-{
-    outlineSize = s;
-    outlineColor = c;
-}
-
-void FixedSizePointItem::SetColor(const QColor& c)
-{
-    color = c;
 }
 
 void FixedSizePointItem::SetRadius(qreal r)

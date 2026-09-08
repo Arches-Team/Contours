@@ -73,64 +73,6 @@ HistogramD HistogramD::operator/(double f) const
 	return HistogramD(keys, v);
 }
 
-// Return the closest index to v with bigger value than v
-// keys sould be sorted
-int HistogramD::UpperKey(double v) const
-{
-	int n = Size();
-	
-	if (v <= keys[0]) return 0;
-
-	// TODO: faire une dichotomie
-	for (int i = 1; i < n; ++i)
-	{
-		if (v <= keys[i])
-		{
-			return i;
-		}
-	}
-	return n;
-}
-
-// Return the closest index to v with lower value than v
-// keys sould be sorted
-int HistogramD::LowerKey(double v) const
-{
-	int n = Size();
-
-	if (v <= keys[0]) return 0;
-
-	// TODO: faire une dichotomie
-	for (int i = 1; i < n; ++i)
-	{
-		if (v < keys[i])
-		{
-			return i - 1;
-		}
-	}
-	return n;
-}
-
-// Return the closest index to v
-// keys sould be sorted
-int HistogramD::ClosestKey(double v) const
-{
-	int n = Size();
-
-	if (v <= keys[0]) return 0;
-
-	// TODO: faire une dichotomie
-	for (int i = 1; i < n; ++i)
-	{
-		if (v < keys[i])
-		{
-			if (keys[i] - v < v - keys[i - 1]) return i;
-			return i - 1;
-		}
-	}
-	return n;
-}
-
 // return the largest bin of the histo
 int HistogramD::MaxValue() const
 {
@@ -147,22 +89,6 @@ int HistogramD::MaxValue() const
 	return ind;
 }
 
-// return the lowest bin of the histo
-int HistogramD::MinValue() const
-{
-	int ind = 0;
-	double val = values[0];
-	for (int i = 1; i < values.size(); ++i)
-	{
-		if (values[i] < val)
-		{
-			val = values[i];
-			ind = i;
-		}
-	}
-	return ind;
-}
-
 double HistogramD::GetSum() const
 {
 	double val = 0;
@@ -171,49 +97,6 @@ double HistogramD::GetSum() const
 		val += values[i];
 	}
 	return val;
-}
-
-HistogramD HistogramD::ReversedHistogram(bool reverseKeys) const
-{
-	QVector<double> vs = values;
-	QVector<double> ks = keys;
-
-	std::reverse(vs.begin(), vs.end());
-	if (reverseKeys)
-		std::reverse(ks.begin(), ks.end());
-
-	return HistogramD(ks, vs);
-}
-
-HistogramD HistogramD::CumulativeHistogram() const
-{
-	QVector<double> vals;
-	vals.reserve(values.size());
-
-	double c = 0;
-	for (int i = 0; i < values.size(); ++i)
-	{
-		c += values[i];
-		vals.append(c);
-	}
-
-	return HistogramD(keys, vals);
-}
-
-HistogramD HistogramD::NormalizedHistogram(double min, double max) const
-{
-	QVector<double> vals;
-	vals.reserve(values.size());
-	double M = values[MaxValue()];
-
-	for (int i = 0; i < values.size(); ++i)
-	{
-		double t = values[i] / M;
-		double v = t * max + (1 - t) * min;
-		vals.append(v);
-	}
-
-	return HistogramD(keys, vals);
 }
 
 HistogramD HistogramD::Ceil() const

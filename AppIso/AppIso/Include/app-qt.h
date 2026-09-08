@@ -1,4 +1,8 @@
-#include "maya.h"
+#ifdef _MSC_VER
+#include "glew.h"
+#else
+#include "GL/glew.h"
+#endif
 
 #include <QtCore/QVariant>
 #include <QtGui/QAction>

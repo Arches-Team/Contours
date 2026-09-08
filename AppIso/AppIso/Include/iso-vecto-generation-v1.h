@@ -4,8 +4,6 @@
 #include "noise.h"
 #include "graph.h"
 #include "iso-line.h"
-#include "draw.h"
-
 
 // Version 1 vectoriel
 // Buts initiaux de la V1:
@@ -15,7 +13,7 @@ class IsoVectoGenerationV1
 {
 protected:
 	GraphPoisson R;				// Les valeurs de hauteur
-	GraphPoisson P;				// Les valeurs de proba (même graphe que Z)
+	GraphPoisson P;				// Les valeurs de proba (mï¿½me graphe que Z)
 
 	int nbAssigned = 0;
 	int lastChosen = -1;

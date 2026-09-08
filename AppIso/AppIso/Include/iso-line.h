@@ -3,6 +3,11 @@
 #include "heightfield.h"
 #include "graph.h"
 #include "histogramd.h"
+#include "palette.h"
+#include "circle.h"
+#include "curvepoint.h"
+
+#include <QtWidgets/QGraphicsScene>
 
 class IsoLinePoly : public Polygon2
 {
@@ -92,7 +97,6 @@ public:
 	// Relation between isolines
 	int Parent(int) const;
 	QSet<int> Children(int) const;
-	QSet<int> Siblings(int) const;
 	QSet<int> Roots() const;
 
 	// Recursive information on levels
@@ -112,7 +116,6 @@ public:
 
 	// Utils to change every isos without needed a loop
 	void Smooth(double, double = 0.1, int = 1);
-	void SmoothBig(int, double, double = 0.1, int = 1);
 	void Resample(double);
 	void ResampleSpline(double, double = 0.5);
 	bool Inside(const Vector2&) const;
@@ -122,7 +125,6 @@ public:
 	double TotalLength() const;
 	QSet<double> Heights() const;
 	QVector<double> SortedHeights() const;
-	HistogramD HeightsHistogram() const;
 
 	// Debug
 	ScalarField2 GetMask(int, int) const;
@@ -193,15 +195,4 @@ inline QSet<int> IsoLines::Children(int i) const
 inline QSet<int> IsoLines::Roots() const
 {
 	return roots;
-}
-
-inline QSet<int> IsoLines::Siblings(int i) const
-{
-	QSet<int> siblings;
-	if (Parent(i) == -1)
-		siblings = Roots();
-	else
-		siblings = Children(Parent(i));
-	siblings.remove(i);
-	return siblings;
 }

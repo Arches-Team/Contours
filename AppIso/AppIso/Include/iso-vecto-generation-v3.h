@@ -4,20 +4,18 @@
 #include "noise.h"
 #include "graph.h"
 #include "iso-line.h"
-#include "draw.h"
-
 
 // Version 3 vectoriel
 // Buts initiaux de la V3:
 // - Copie de la version double eden (V6) mais en vectoriel
-// - garder les amélioration de la V1 vectoriel
+// - garder les amï¿½lioration de la V1 vectoriel
 
 class IsoVectoGenerationV3
 {
 protected:
 	GraphPoisson R;				// Les valeurs de hauteur
-	GraphPoisson Z;				// Les différentes zones
-	GraphPoisson P;				// Les valeurs de proba (même graphe que Z)
+	GraphPoisson Z;				// Les diffï¿½rentes zones
+	GraphPoisson P;				// Les valeurs de proba (mï¿½me graphe que Z)
 
 	// parameters used in protected functions
 	GraphPoisson TLow;			// Valeurs temporaires pour le eden montant
@@ -34,7 +32,7 @@ protected:
 	QSet<int> externalBorders;			// Ensemble des sommets du graphe qui sont sur la bordure de la zone externe (basse)
 	QSet<int> accessibleElements;		// Ensemble des sommets voisins de la bordure actuel (permettant de savoir lequel est le plus petit a assigner lorsque withEndoreicZones = false)
 
-	QSet<double> idZones; // Les différentes valeurs dans Z, représentant les différentes zones
+	QSet<double> idZones; // Les diffï¿½rentes valeurs dans Z, reprï¿½sentant les diffï¿½rentes zones
 	QVector<GraphPoisson> edenAsc; // To store the double eden growth if needed
 	QVector<GraphPoisson> edenDesc;
 	QVector<GraphPoisson> edenFinal;

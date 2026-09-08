@@ -22,9 +22,6 @@
     <ClInclude Include="Include\iso-vecto-generation-v1.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="Include\tin.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Include\iso-vecto-generation-v2.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -37,6 +34,138 @@
     <ClInclude Include="Include\app-qt.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="LibGL\Include\GL.h">
+      <Filter>LibGL\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibGL\Include\glew.h">
+      <Filter>LibGL\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tin.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibHeightfield\Include\heightfield.h">
+      <Filter>LibHeightfield\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMaya\Include\realtime.h">
+      <Filter>LibMaya\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\box.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\camera.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\circle.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\color.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\cpu.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\curve.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\curvepoint.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\diffusion.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\eden.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\evector.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\histogram.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\ia.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\mathematics.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\mesh.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\noise.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\palette.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\particle.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\polygon.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\random.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\ray.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\sampling.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\scalarfield.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\segment.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\triangle.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\turbulence.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\vectorset.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\array.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibHeightfield\Include\gpusediment.h">
+      <Filter>LibHeightfield\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibHeightfield\Include\gputerrainsimu.h">
+      <Filter>LibHeightfield\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibHeightfield\Include\ms_spe_gpu.h">
+      <Filter>LibHeightfield\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\gpu-shader.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\gpu-wrapper.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\plane.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\frame.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\matrix.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\cubic.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\linear.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibCore\Include\quintic.h">
+      <Filter>LibCore\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMaya\Include\evectorfloat.h">
+      <Filter>LibMaya\Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Include">
@@ -48,18 +177,57 @@
     <Filter Include="Interface">
       <UniqueIdentifier>{e5e00721-01b9-410f-9f61-cdfc0b392040}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders">
+    <Filter Include="LibCore">
+      <UniqueIdentifier>{2a6bd280-c67e-43a1-9ec8-636f1555c74b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibCore\Source">
+      <UniqueIdentifier>{5ac2c73d-bb70-4be5-bb4f-8fc7a15a74e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibCore\Shaders">
       <UniqueIdentifier>{5b9d72e3-f309-41c8-908e-e30824571b30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibGL">
+      <UniqueIdentifier>{8f9ea5bb-f8b5-4877-8bac-f85bddb04a2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibGL\bin">
+      <UniqueIdentifier>{042aee7d-d804-4bd9-9a8a-1eb770f9e130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibGL\Include">
+      <UniqueIdentifier>{6ed92059-104e-45f2-b716-1fb278b7a4ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibGL\Library">
+      <UniqueIdentifier>{0f219eae-49a2-4a88-83a4-044dbaa6977a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibHeightfield">
+      <UniqueIdentifier>{f2ca6f2a-beda-4c05-8edf-216ea588ffbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibHeightfield\Include">
+      <UniqueIdentifier>{0f457a82-61e0-4602-9789-ab288cc5fe73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibHeightfield\Shaders">
+      <UniqueIdentifier>{9acbc1db-4f88-44ae-9dbf-06e87eb7c830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibHeightfield\Source">
+      <UniqueIdentifier>{751cb260-3892-44b8-b5fd-7aa7c00326d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibMaya">
+      <UniqueIdentifier>{86aeb05b-fce9-4842-aa50-aae061dfe11e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibMaya\Shaders">
+      <UniqueIdentifier>{cf3e7349-88d6-471c-89e0-d157d242e932}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibMaya\Include">
+      <UniqueIdentifier>{a3dd7ab0-1129-4db3-9446-19091c1f11cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibMaya\Source">
+      <UniqueIdentifier>{618e29f5-f20a-4be2-b9b2-b314b440dccc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibCore\Include">
+      <UniqueIdentifier>{5d503ff8-9fb9-4d6e-8053-7e1e429d82cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\qtemainwindow.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\window-pipeline.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\misc.cpp">
@@ -86,12 +254,6 @@
     <ClCompile Include="Source\iso-vecto-generation-v1.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\app-test.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\tin.cpp">
-      <Filter>Include</Filter>
-    </ClCompile>
     <ClCompile Include="Source\iso-vecto-generation-v2.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -101,13 +263,181 @@
     <ClCompile Include="Source\iso-vecto-generation-v3.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\iso-view-moc.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\qte-moc.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\app-qt.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\tin.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\camera.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibHeightfield\Source\heightfield.cpp">
+      <Filter>LibHeightfield\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibHeightfield\Source\heightfield-flow.cpp">
+      <Filter>LibHeightfield\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\array2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\box.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\box2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibHeightfield\Source\ms_spe_gpu.cpp">
+      <Filter>LibHeightfield\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibHeightfield\Source\gpu_deposition.cpp">
+      <Filter>LibHeightfield\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibHeightfield\Source\gputerrainsimu_test.cpp">
+      <Filter>LibHeightfield\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibHeightfield\Source\gputhermalsimple.cpp">
+      <Filter>LibHeightfield\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMaya\Source\mesh-widget.cpp">
+      <Filter>LibMaya\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMaya\Source\terrain-raytracingwidget.cpp">
+      <Filter>LibMaya\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibHeightfield\Source\heightfield-access.cpp">
+      <Filter>LibHeightfield\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\circle2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\color.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\cpu.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\system.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\curvecubic2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\cubic.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\pointcurve2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\diffusion.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\eden2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\evector.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\evector2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\framescaled.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\frame.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\analyticpalette.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\analyticscalarfield2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\disctilelink.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\gpu-shader.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\hashtable.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\histogram.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\matrix.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\matrix4.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\mesh.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\mesh2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\mesh-extrusion.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\noise2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\palette.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\particle2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\plane.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\polygon2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\polygons2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\random.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\sampling2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\scalarfield2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\scalarfield2-smooth.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\segment2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\lines2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\triangle.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\triangle2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\turbulence2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\matrix2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibCore\Source\vectorset2.cpp">
+      <Filter>LibCore\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMaya\Source\evectorfloat.cpp">
+      <Filter>LibMaya\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\main-window-app.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\main-window.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -118,8 +448,51 @@
     <CustomBuild Include="Include\iso-view.h">
       <Filter>Include</Filter>
     </CustomBuild>
-    <CustomBuild Include="Include\qte.h">
+    <CustomBuild Include="Include\main-window.h">
       <Filter>Include</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LibCore\Shaders\diffusion.glsl">
+      <Filter>LibCore\Shaders</Filter>
+    </None>
+    <None Include="LibGL\bin\glew32.dll">
+      <Filter>LibGL\bin</Filter>
+    </None>
+    <None Include="LibHeightfield\Shaders\deposition.glsl">
+      <Filter>LibHeightfield\Shaders</Filter>
+    </None>
+    <None Include="LibHeightfield\Shaders\heightfield_thermal_simple.glsl">
+      <Filter>LibHeightfield\Shaders</Filter>
+    </None>
+    <None Include="LibHeightfield\Shaders\map_add.glsl">
+      <Filter>LibHeightfield\Shaders</Filter>
+    </None>
+    <None Include="LibHeightfield\Shaders\map_processing.glsl">
+      <Filter>LibHeightfield\Shaders</Filter>
+    </None>
+    <None Include="LibHeightfield\Shaders\ms_spe_gpu.glsl">
+      <Filter>LibHeightfield\Shaders</Filter>
+    </None>
+    <None Include="LibMaya\Shaders\boundingBox.glsl">
+      <Filter>LibMaya\Shaders</Filter>
+    </None>
+    <None Include="LibMaya\Shaders\heightfield_raytrace.glsl">
+      <Filter>LibMaya\Shaders</Filter>
+    </None>
+    <None Include="LibMaya\Shaders\mesh.glsl">
+      <Filter>LibMaya\Shaders</Filter>
+    </None>
+    <None Include="LibMaya\Shaders\pbr_terrain.glsl">
+      <Filter>LibMaya\Shaders</Filter>
+    </None>
+    <None Include="LibMaya\Shaders\skybox.glsl">
+      <Filter>LibMaya\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="LibGL\Library\glew32.lib">
+      <Filter>LibGL\Library</Filter>
+    </Library>
   </ItemGroup>
 </Project>

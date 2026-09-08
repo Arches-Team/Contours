@@ -1,11 +1,13 @@
-#include "qte.h"
+#include "main-window.h"
+
+#include <QtGui/QScreen>
 
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	//srand(time(NULL));
 
-	MainAmplificationWindow mainWin;
+	MainWindow mainWin;
 
     // To display the app in second screen
     QList<QScreen*> screens = QGuiApplication::screens();

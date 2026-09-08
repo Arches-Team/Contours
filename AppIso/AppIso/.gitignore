@@ -1,3 +1,5 @@
 Figures/
+Temp/
 Source/*-moc.cpp
 Include/uic_*.h
+Qt.props

@@ -3,6 +3,7 @@
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QAbstractGraphicsShapeItem>
 #include "iso-line.h"
+#include "circle.h"
 
 class IsoView : public QGraphicsView
 {
@@ -44,7 +45,6 @@ public:
 	void ChangeIsos(IsoLines*);
 	void ClearView();
 	void ResetView();
-	void ResetViewRect();
 	void SetViewRect(const Box2&);
 	Box2 ViewRect() const;
 
@@ -136,8 +136,6 @@ protected:
 public:
 	FixedSizePointItem(const QPointF& position, qreal = 5);
 
-	void SetOutline(qreal, const QColor & = Qt::black);
-	void SetColor(const QColor&);
 	void SetRadius(qreal);
 
 	QRectF boundingRect() const override;

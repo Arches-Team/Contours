@@ -1,25 +1,24 @@
 #include "graph.h"
-#include "draw.h"
 #include "misc.h"
 #include "histogram.h"
 #include <QtWidgets/QAbstractGraphicsShapeItem>
 
 /*
- * Construit un graphe à partir d'un sample de poisson à l'intérieur d'un polygone
+ * Construit un graphe ï¿½ partir d'un sample de poisson ï¿½ l'intï¿½rieur d'un polygone
  * 
- * \param mask Le masque définissant quelle zone est dans ou hors du graphe (doit être un masque binaire 0 = hors de la zone)
+ * \param mask Le masque dï¿½finissant quelle zone est dans ou hors du graphe (doit ï¿½tre un masque binaire 0 = hors de la zone)
  * \param r	   Le rayon du Poisson Disk Sampling
  * \param v	   La valeur de base sur les sommets du graphe
  */
 GraphPoisson::GraphPoisson(const ScalarField2& mask, double r, const double& v) : radius(r), mask(mask)
 {
-	// On scale un peu pour être plus gros que le masque et éviter les voisins moches à cause de la Delaunaysation
+	// On scale un peu pour ï¿½tre plus gros que le masque et ï¿½viter les voisins moches ï¿½ cause de la Delaunaysation
 	Box2 b = mask.GetBox();
 	Vector2 border(8*r, 8*r);
 	b = Box2(b[0] - border, b[1] + border);
 
 	Mesh2 mesh = Misc::DelaunayPointsInBox(b, r);
-	Mesh2 mesh2 = mesh.SubMesh(mask); // TODO: léger bug dans cette fonction, certains points en bordure de mer n'auront pas de voisins
+	Mesh2 mesh2 = mesh.SubMesh(mask); // TODO: lï¿½ger bug dans cette fonction, certains points en bordure de mer n'auront pas de voisins
 
 	topologyExt = QSharedPointer<Tin2>::create(mesh);
 	topology = QSharedPointer<Tin2>::create(mesh2);
@@ -31,17 +30,8 @@ GraphPoisson::GraphPoisson(const ScalarField2& mask, double r, const double& v) 
 }
 
 /*
- * Initialise les valeurs du graphe avec le bruit donné 
+ * Initialise les valeurs du graphe avec le bruit donnï¿½ 
  */
-//GraphPoisson::GraphPoisson(const ScalarField2& mask, double r, const ScalarField2& noise) : GraphPoisson(mask, r)
-//{
-//	SetValueFromScalarField(noise);
-//}
-
-//GraphPoisson::GraphPoisson(const GraphPoisson& oth) : radius(oth.radius), mask(oth.mask), topology(oth.topology), topologyExt(oth.topologyExt), topoToExt(oth.topoToExt), extToTopo(oth.extToTopo), values(oth.values)
-//{
-//
-//}
 
 GraphPoisson::GraphPoisson(const GraphPoisson& oth, const double& v) : GraphPoisson(oth)
 {
@@ -61,7 +51,7 @@ void GraphPoisson::SetValueFromScalarField(const ScalarField2& sf)
  * This method is when we want the graph to have exactly the value given in the cells of sf
  * Otherwise, the `ScalarField2::Value` method can interpolate values
  * 
- * TODO: Pour le moment cette méthode supprime la valeur 0 car on l'utilise de cette manière
+ * TODO: Pour le moment cette mï¿½thode supprime la valeur 0 car on l'utilise de cette maniï¿½re
  */
 void GraphPoisson::SetStrictValueFromScalarField(const ScalarField2& sf)
 {
@@ -76,13 +66,13 @@ void GraphPoisson::SetStrictValueFromScalarField(const ScalarField2& sf)
 			zeroes.insert(i);
 	}
 
-	// On ne veut pas de 0, donc on récupère les valeurs des voisins
+	// On ne veut pas de 0, donc on rï¿½cupï¿½re les valeurs des voisins
 	while (!zeroes.empty())
 	{
 		QSet<int> newZeroes;
 		for (int id : zeroes)
 		{
-			// On récupère la plus petite valeur voisine != 0
+			// On rï¿½cupï¿½re la plus petite valeur voisine != 0
 			double v = 0.0;
 			for (int nid : Neighbours(id))
 			{
@@ -96,7 +86,7 @@ void GraphPoisson::SetStrictValueFromScalarField(const ScalarField2& sf)
 				newZeroes.insert(id);
 		}
 
-		// On abandonne si la zone est une petite zone seule pour éviter la boucle infinie
+		// On abandonne si la zone est une petite zone seule pour ï¿½viter la boucle infinie
 		if (newZeroes.size() == zeroes.size())
 			break;
 		zeroes = newZeroes;
@@ -116,7 +106,7 @@ void GraphPoisson::SetValueFromHistogram(const HistogramD& histo)
 	}
 	std::sort(sorted.begin(), sorted.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
 	
-	// TODO: ne pas passer par là, où alors faire en sorte que le ToHistogram soit plus cohérent, voir ce qui était fait avant dans GetNextHeight (ancien commit)
+	// TODO: ne pas passer par lï¿½, oï¿½ alors faire en sorte que le ToHistogram soit plus cohï¿½rent, voir ce qui ï¿½tait fait avant dans GetNextHeight (ancien commit)
 	Histogram h = histo.ToHistogram(Size());
 	int i = 0;
 	for (int hi = 0; hi < h.GetSize(); ++hi)
@@ -209,7 +199,7 @@ double GraphPoisson::Value(const Vector2& p) const
 }
 
 /*
- * Renvoi un champs scalaire dans la range donnée correspondant aux valeurs interpolées du maillage
+ * Renvoi un champs scalaire dans la range donnï¿½e correspondant aux valeurs interpolï¿½es du maillage
  */
 ScalarField2 GraphPoisson::Rasterize(const Box2& b, int w, int h) const
 {
@@ -252,9 +242,9 @@ Polygons2 GraphPoisson::ContourLines(double h) const
 	double min, max;
 	GetRange(min, max);
 	double seaValue = SeaLevel();
-	double exteriorValue = seaValue - 100 * (max - min + 1); // valeurs très basse
+	double exteriorValue = seaValue - 100 * (max - min + 1); // valeurs trï¿½s basse
 
-	// On donne les valeurs à topologyExt, on fait le marching triangle sur ce graphe là
+	// On donne les valeurs ï¿½ topologyExt, on fait le marching triangle sur ce graphe lï¿½
 	int n = topologyExt->VertexSize();
 	QVector<double> valuesExt(n, exteriorValue);
 	for (int evi = 0; evi < n; ++evi)
@@ -478,7 +468,7 @@ QGraphicsScene* GraphPoisson::ToScene(const DisplayOptions& opt) const
 	return scene;
 }
 
-// Renvoie vraie si l'indice de la topologie extérieur correspond à un sommet dans la box du masque où à l'extérieur
+// Renvoie vraie si l'indice de la topologie extï¿½rieur correspond ï¿½ un sommet dans la box du masque oï¿½ ï¿½ l'extï¿½rieur
 // En gros renvoie vraie si on est dans la mer
 bool GraphPoisson::ExteriorPointInsideMask(int evi) const
 {

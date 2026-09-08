@@ -1,5 +1,6 @@
 #pragma once
 #include "sampling.h"
+#include "mesh.h"
 
 class Misc
 {

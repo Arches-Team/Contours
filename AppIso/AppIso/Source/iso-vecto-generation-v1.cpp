@@ -6,9 +6,9 @@ using namespace std;
 #define INITIAL_VALUE Math::Infinity
 
 /*
- * Les graphes R, Z et P ont la meme topology (celle donnée par z)
+ * Les graphes R, Z et P ont la meme topology (celle donnï¿½e par z)
  *
- * \param z Le graphe sur lequel se baser pour la génération
+ * \param z Le graphe sur lequel se baser pour la gï¿½nï¿½ration
  * \param p Les valeurs de proba qu'on veut donner. Elles doivent se situer dans l'intervalle [0, 1]
  */
 IsoVectoGenerationV1::IsoVectoGenerationV1(const GraphPoisson& z, const ScalarField2& p) : R(z, INITIAL_VALUE), P(z)
@@ -16,7 +16,7 @@ IsoVectoGenerationV1::IsoVectoGenerationV1(const GraphPoisson& z, const ScalarFi
 	P.SetValueFromScalarField(p);
 	for (int i = 0; i < P.Size(); ++i)
 	{
-		// Pour éviter les erreurs avec des probas nulles
+		// Pour ï¿½viter les erreurs avec des probas nulles
 		P[i] = Math::Max(0.001, P[i]);
 	}
 }
@@ -25,8 +25,8 @@ IsoVectoGenerationV1::IsoVectoGenerationV1(const GraphPoisson& z, const ScalarFi
  * Generate a graph poisson with value from 0 to n (the size of the graph)
  * The result can be recover with Result();
  * 
- * \param debug Si != 0, nombre de debug à faire (un tous les `debug` frames)
- * \param root Le dossier root + potentiel début de nom pour les images de debug
+ * \param debug Si != 0, nombre de debug ï¿½ faire (un tous les `debug` frames)
+ * \param root Le dossier root + potentiel dï¿½but de nom pour les images de debug
  */
 void IsoVectoGenerationV1::Generate(int debug, const QString& root)
 {
@@ -69,7 +69,7 @@ void IsoVectoGenerationV1::PreProcess()
 
 	for (int nodeId = 0; nodeId < R.Size(); ++nodeId)
 	{
-		// Toutes les bordures font directement partie de la première iso
+		// Toutes les bordures font directement partie de la premiï¿½re iso
 		if (R.IsBorder(nodeId))
 		{
 			borders.insert(nodeId);
@@ -89,7 +89,7 @@ void IsoVectoGenerationV1::ChooseNextNode()
 	static Random r;
 	while (true)
 	{
-		// On récupère un élément de bordure
+		// On rï¿½cupï¿½re un ï¿½lï¿½ment de bordure
 		int parent = GetRandomNode();
 
 		if (parent == -1)
@@ -99,7 +99,7 @@ void IsoVectoGenerationV1::ChooseNextNode()
 			exit(1);
 		}
 
-		// On choisit un des voisins de manière aléatoire
+		// On choisit un des voisins de maniï¿½re alï¿½atoire
 		QVector<int> neighs;
 		for (int neigh : R.Neighbours(parent))
 		{
@@ -110,8 +110,8 @@ void IsoVectoGenerationV1::ChooseNextNode()
 		}
 
 		// Un noeud est dans la bordure s'il a au moins un voisin non choisi
-		// On enlève un noeud de l'ensemble des bordures que lorsqu'on le choisi aléatoirement et qu'on se rend compte que tous les voisins sont choisis
-		// TODO: c'est sans doute plus rapide de garder le set le plus petit possible à chaque fois, mais c'est plus clair et plus rapide à coder comme ça
+		// On enlï¿½ve un noeud de l'ensemble des bordures que lorsqu'on le choisi alï¿½atoirement et qu'on se rend compte que tous les voisins sont choisis
+		// TODO: c'est sans doute plus rapide de garder le set le plus petit possible ï¿½ chaque fois, mais c'est plus clair et plus rapide ï¿½ coder comme ï¿½a
 		if (!neighs.empty())
 		{
 			lastChosen = neighs[r.Integer(neighs.size())];
@@ -141,7 +141,7 @@ int IsoVectoGenerationV1::GetRandomNode()
 		cumul += P[ind];
 	}
 
-	// Si aucun point ne peut être choisi, on n'en choisi pas
+	// Si aucun point ne peut ï¿½tre choisi, on n'en choisi pas
 	if (cumul == 0)
 		return -1;
 

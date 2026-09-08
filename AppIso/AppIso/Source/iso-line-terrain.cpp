@@ -1,6 +1,5 @@
 #include "iso-line-terrain.h"
 #include "iso-line.h"
-#include "draw.h"
 
 using namespace std;
 
@@ -34,7 +33,7 @@ double IsoLineTerrain::InterpolateH(const Vector2& p, double distToFade) const
 	double epsilon = 0.0001;
 	int i1 = isoLines.ComputeParentIso(p);
 
-	// Cas où on est à l'extérieur des isos
+	// Cas oï¿½ on est ï¿½ l'extï¿½rieur des isos
 	if (i1 == -1)
 	{
 		double dist = Math::Infinity;
@@ -49,33 +48,33 @@ double IsoLineTerrain::InterpolateH(const Vector2& p, double distToFade) const
 		if (dist > distToFade)
 			return h2;
 
-		// Pour éviter les imprécisions numériques
+		// Pour ï¿½viter les imprï¿½cisions numï¿½riques
 		if (dist < epsilon)
 			return h1;
 
-		// Interpolation linéaire entre h1 et h2
+		// Interpolation linï¿½aire entre h1 et h2
 		return (h2 * dist + h1 * (distToFade - dist)) / distToFade;
 	}
 
-	// Cas à l'intérieur d'une iso
+	// Cas ï¿½ l'intï¿½rieur d'une iso
 	double h1 = isoLines[i1].H();
 
-	// Distance par rapport à l'iso extérieure
+	// Distance par rapport ï¿½ l'iso extï¿½rieure
 	double d1 = fabs(isoLines[i1].Signed(p));
 
-	// Plus petite distance par rapport à toutes les isos enfants
+	// Plus petite distance par rapport ï¿½ toutes les isos enfants
 	double d2 = Math::Infinity;
 	int i2 = 0;
 	for (int c : isoLines.Children(i1))
 	{
 		double d = fabs(isoLines[c].Signed(p));
-		// [ENDOREIC] Small correction for endoreic areas, permettant de récupérer la vraie zone la plus proche
+		// [ENDOREIC] Small correction for endoreic areas, permettant de rï¿½cupï¿½rer la vraie zone la plus proche
 		if (isoLines[c].H() == h1)
 		{
 			if (d1 > d)
 			{
 				d1 = d;
-				i1 = c; // on l'utilise jamais mais au cas où
+				i1 = c; // on l'utilise jamais mais au cas oï¿½
 			}
 		}
 		else
@@ -88,9 +87,9 @@ double IsoLineTerrain::InterpolateH(const Vector2& p, double distToFade) const
 		}
 	}
 
-	// Si d2 vaut l'infini c'est qu'on a deux possibilité
+	// Si d2 vaut l'infini c'est qu'on a deux possibilitï¿½
 	// 1. On a pas d'enfant (on est un pic - ou un creux si endoreic)
-	// 2. [ENDOREIC] On a des enfants mais ils sont tous à la meme hauteur -> on est aussi un bassin ou un pic (juste il y a des zones endoreics)
+	// 2. [ENDOREIC] On a des enfants mais ils sont tous ï¿½ la meme hauteur -> on est aussi un bassin ou un pic (juste il y a des zones endoreics)
 	// On utilise la distance au centre de l'iso comme point le plus haut et on interpole
 	if (d2 == Math::Infinity)
 	{
@@ -102,18 +101,18 @@ double IsoLineTerrain::InterpolateH(const Vector2& p, double distToFade) const
 		if (!isoLines.isGrowing(i1))
 			h2 = Math::Max(outH, h1 - diffInH);
 
-		// Pour éviter les imprécisions numériques
+		// Pour ï¿½viter les imprï¿½cisions numï¿½riques
 		if (d2 < epsilon)
 			return h2;
 
-		// Interpolation linéaire entre outH et h
+		// Interpolation linï¿½aire entre outH et h
 		return (d1 * h2 + d2 * h1) / (d2 + d1);
 	}
 
-	// Hauteur intérieur
+	// Hauteur intï¿½rieur
 	double h2 = isoLines[i2].H();
 
-	// Pour éviter les imprécisions numériques
+	// Pour ï¿½viter les imprï¿½cisions numï¿½riques
 	if (d2 < epsilon)
 	{
 		return h2;
@@ -135,7 +134,6 @@ HeightField IsoLineTerrain::InterpolateField(const Box2& b, int x, int y, double
 {
 	HeightField sf(b, x, y);
 
-	//#pragma omp parallel for
 	for (int i = 0; i < x; ++i)
 	{
 		for (int j = 0; j < y; ++j)
@@ -262,14 +260,6 @@ HeightField IsoLineTerrain::HeatField(const Box2& b, int x, int y, bool baseInte
 			else
 			{
 				double v = stairs(i, j);
-				//if (stairs(i + 1, j) < v)
-				//	mask(i, j) = 1;
-				//if (stairs(i - 1, j) < v)
-				//	mask(i, j) = 1;
-				//if (stairs(i, j + 1) < v)
-				//	mask(i, j) = 1;
-				//if (stairs(i, j - 1) < v)
-				//	mask(i, j) = 1;
 				for (int ii = i - 1; ii <= i + 1; ++ii)
 				{
 					for (int jj = j - 1; jj <= j + 1; ++jj)
@@ -321,11 +311,11 @@ QVector<Mesh> IsoLineTerrain::GetMesh(const Box2& b) const
 		//ilp.Epurate(10);
 		ilp.ChangeOrder(true);
 		QVector<int> triangles = ilp.EarClip2();
-		Mesh mesh = Mesh::Extrude(Mesh2(ilp.Vertices(), triangles),  h - baseHeight, h);
+		Mesh mesh = Mesh2(ilp.Vertices(), triangles).Extrude(h - baseHeight, h);
 		meshes.push_back(mesh);
 	}
 
-	meshes.push_back(Mesh::Extrude(Mesh2(b, 10, 10), diffOutH - baseHeight, diffOutH));
+	meshes.push_back(Mesh2(b, 10, 10).Extrude(diffOutH - baseHeight, diffOutH));
 
 	return meshes;
 }

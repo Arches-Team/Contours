@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(ProjectDir)Qt.props" Condition="Exists('$(ProjectDir)Qt.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -31,8 +32,6 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -43,27 +42,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)\Out\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Temp\$(Platform)\$(Configuration)\</IntDir>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
-    <IncludePath>$(QTDIR64)\lib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)\Out\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Temp\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(QTDIR64)\lib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;Include\;$(ARCHESLIBDIR)\LibMaya\LibMaya\Include\;$(ARCHESLIBDIR)\LibCore\LibCore\Include\;$(ARCHESLIBDIR)\LibPlatform\LibGL\$(Platform)\Include\;$(QTDIR64)\include\;$(ARCHESLIBDIR)\LibHeightfield\LibHeightField\Include\;$(ARCHESLIBDIR)\LibHeightAnalysis\LibHeightAnalysis\Include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Include\;$(ProjectDir)LibCore\Include\;$(ProjectDir)LibGL\Include\;$(ProjectDir)LibHeightfield\Include\;$(ProjectDir)LibMaya\Include\;$(QtDir)\include\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ShowIncludes>false</ShowIncludes>
       <OpenMPSupport>true</OpenMPSupport>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <FunctionLevelLinking>
-      </FunctionLevelLinking>
       <DisableSpecificWarnings>4458;4127</DisableSpecificWarnings>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -73,15 +67,15 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ARCHESLIBDIR)\LibMaya\Out\$(Platform)\$(Configuration)\;$(ARCHESLIBDIR)\LibCore\Out\$(Platform)\$(Configuration)\;$(ARCHESLIBDIR)\LibHeightfield\Out\$(Platform)\$(Configuration)\;$(ARCHESLIBDIR)\LibPlatform\LibGL\$(Platform)\Library\;$(QTDIR64)\lib\;$(ARCHESLIBDIR)\LibHeightAnalysis\Out\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LibHeightAnalysis.lib;LibMaya.lib;LibHeightfield.lib;LibCore.lib;glew32.lib;glu32.lib;opengl32.lib;Qt6Cored.lib;Qt6OpenGLd.lib;Qt6Guid.lib;Qt6Widgetsd.lib;Qt6PrintSupportd.lib;Qt6OpenGLWidgetsd.lib;Qt6Chartsd.lib;Qt6Svgd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QtDir)\lib\;$(ProjectDir)LibGL\Library\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;glu32.lib;opengl32.lib;Qt6Cored.lib;Qt6OpenGLd.lib;Qt6Guid.lib;Qt6Widgetsd.lib;Qt6OpenGLWidgetsd.lib;Qt6Svgd.lib</AdditionalDependencies>
     </Link>
-    <QtUic>
-      <QTDIR>$(QTDIR64)</QTDIR>
-      <InputFile>%(FullPath)</InputFile>
-      <OutputFile>Include\ui-%(Filename).h</OutputFile>
-      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
-    </QtUic>
+    <PostBuildEvent>
+      <Command>
+        "$(QtDir)\bin\windeployqt.exe" --debug "$(TargetPath)"
+        copy /Y "$(ProjectDir)LibGL\bin\glew32.dll" "$(OutDir)glew32.dll"
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -89,7 +83,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;Include\;$(ARCHESLIBDIR)\LibMaya\LibMaya\Include\;$(ARCHESLIBDIR)\LibCore\LibCore\Include\;$(ARCHESLIBDIR)\LibPlatform\LibGL\$(Platform)\Include\;$(QTDIR64)\include\;$(ARCHESLIBDIR)\LibHeightfield\LibHeightField\Include\;$(ARCHESLIBDIR)\LibPath\LibPath\Include;$(ARCHESLIBDIR)\LibHeightAnalysis\LibHeightAnalysis\Include\;E:\Code\eigen-3.4.0\Eigen\src\Core\;E:\Code\eigen-3.4.0\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Include\;$(ProjectDir)LibCore\Include\;$(ProjectDir)LibGL\Include\;$(ProjectDir)LibHeightfield\Include\;$(ProjectDir)LibMaya\Include\;$(QtDir)\include\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <OmitFramePointers>true</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -110,101 +104,216 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ARCHESLIBDIR)\LibMaya\Out\$(Platform)\$(Configuration)\;$(ARCHESLIBDIR)\LibCore\Out\$(Platform)\$(Configuration)\;$(ARCHESLIBDIR)\LibHeightfield\Out\$(Platform)\$(Configuration)\;$(ARCHESLIBDIR)\LibPlatform\LibGL\$(Platform)\Library\;$(QTDIR64)\lib\;$(ARCHESLIBDIR)\LibHeightAnalysis\Out\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LibHeightAnalysis.lib;LibMaya.lib;LibHeightfield.lib;LibCore.lib;glew32.lib;glu32.lib;opengl32.lib;Qt6Core.lib;Qt6OpenGL.lib;Qt6Gui.lib;Qt6Widgets.lib;Qt6PrintSupport.lib;Qt6OpenGLWidgets.lib;Qt6Charts.lib;Qt6Svg.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QtDir)\lib\;$(ProjectDir)LibGL\Library\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;glu32.lib;opengl32.lib;Qt6Core.lib;Qt6OpenGL.lib;Qt6Gui.lib;Qt6Widgets.lib;Qt6OpenGLWidgets.lib;Qt6Svg.lib</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <SubSystem>Console</SubSystem>
     </Link>
-    <PreBuildEvent>
+    <PostBuildEvent>
       <Command>
+        "$(QtDir)\bin\windeployqt.exe" --release "$(TargetPath)"
+        copy /Y "$(ProjectDir)LibGL\bin\glew32.dll" "$(OutDir)glew32.dll"
       </Command>
-    </PreBuildEvent>
-    <QtMoc>
-      <QTDIR>$(QTDIR64)</QTDIR>
-      <InputFile>%(FullPath)</InputFile>
-      <OutputFile>Source\moc_%(Filename).cpp</OutputFile>
-      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
-      <DynamicSource>output</DynamicSource>
-    </QtMoc>
-    <QtUic>
-      <QTDIR>$(QTDIR64)</QTDIR>
-      <InputFile>%(FullPath)</InputFile>
-      <OutputFile>Include\ui-%(Filename).h</OutputFile>
-      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
-    </QtUic>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Include\app-qt.h" />
     <ClInclude Include="Include\article-utils.h" />
     <ClInclude Include="Include\displacement-function.h" />
     <ClInclude Include="Include\graph.h" />
+    <ClInclude Include="Include\histogramd.h" />
+    <ClInclude Include="Include\iso-line.h" />
+    <ClInclude Include="Include\iso-line-terrain.h" />
+    <ClInclude Include="Include\iso-vecto-generation-v1.h" />
     <ClInclude Include="Include\iso-vecto-generation-v2.h" />
     <ClInclude Include="Include\iso-vecto-generation-v3.h" />
-    <ClInclude Include="Include\tin.h" />
-    <CustomBuild Include="Include\qte.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR64)\bin\moc.exe -fmaya-qt.h -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Source\%(Filename)-moc.cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR64)\bin\moc.exe</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR64)\bin\moc.exe -fmaya-qt.h -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Source\%(Filename)-moc.cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR64)\bin\moc.exe</AdditionalInputs>
-    </CustomBuild>
-    <ClInclude Include="Include\histogramd.h" />
-    <ClInclude Include="Include\iso-line-terrain.h" />
     <CustomBuild Include="Include\iso-view.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR64)\bin\moc.exe -fmaya-qt.h -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QtDir)\bin\moc.exe -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Source\%(Filename)-moc.cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR64)\bin\moc.exe</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR64)\bin\moc.exe</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QtDir)\bin\moc.exe</AdditionalInputs>
+
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Source\%(Filename)-moc.cpp</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR64)\bin\moc.exe -fmaya-qt.h -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QtDir)\bin\moc.exe -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QtDir)\bin\moc.exe</AdditionalInputs>
     </CustomBuild>
-    <ClInclude Include="Include\iso-line.h" />
-    <ClInclude Include="Include\iso-vecto-generation-v1.h" />
     <ClInclude Include="Include\misc.h" />
+    <CustomBuild Include="Include\main-window.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QtDir)\bin\moc.exe -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Source\%(Filename)-moc.cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QtDir)\bin\moc.exe</AdditionalInputs>
+
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QtDir)\bin\moc.exe -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Source\%(Filename)-moc.cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QtDir)\bin\moc.exe</AdditionalInputs>
+    </CustomBuild>
+    <ClInclude Include="Include\tin.h" />
+    <ClInclude Include="LibCore\Include\array.h" />
+    <ClInclude Include="LibCore\Include\box.h" />
+    <ClInclude Include="LibCore\Include\camera.h" />
+    <ClInclude Include="LibCore\Include\circle.h" />
+    <ClInclude Include="LibCore\Include\color.h" />
+    <ClInclude Include="LibCore\Include\cpu.h" />
+    <ClInclude Include="LibCore\Include\cubic.h" />
+    <ClInclude Include="LibCore\Include\curve.h" />
+    <ClInclude Include="LibCore\Include\curvepoint.h" />
+    <ClInclude Include="LibCore\Include\diffusion.h" />
+    <ClInclude Include="LibCore\Include\eden.h" />
+    <ClInclude Include="LibCore\Include\evector.h" />
+    <ClInclude Include="LibCore\Include\frame.h" />
+    <ClInclude Include="LibCore\Include\gpu-shader.h" />
+    <ClInclude Include="LibCore\Include\gpu-wrapper.h" />
+    <ClInclude Include="LibCore\Include\histogram.h" />
+    <ClInclude Include="LibCore\Include\ia.h" />
+    <ClInclude Include="LibCore\Include\linear.h" />
+    <ClInclude Include="LibCore\Include\mathematics.h" />
+    <ClInclude Include="LibCore\Include\matrix.h" />
+    <ClInclude Include="LibCore\Include\mesh.h" />
+    <ClInclude Include="LibCore\Include\noise.h" />
+    <ClInclude Include="LibCore\Include\palette.h" />
+    <ClInclude Include="LibCore\Include\particle.h" />
+    <ClInclude Include="LibCore\Include\plane.h" />
+    <ClInclude Include="LibCore\Include\polygon.h" />
+    <ClInclude Include="LibCore\Include\quintic.h" />
+    <ClInclude Include="LibCore\Include\random.h" />
+    <ClInclude Include="LibCore\Include\ray.h" />
+    <ClInclude Include="LibCore\Include\sampling.h" />
+    <ClInclude Include="LibCore\Include\scalarfield.h" />
+    <ClInclude Include="LibCore\Include\segment.h" />
+    <ClInclude Include="LibCore\Include\triangle.h" />
+    <ClInclude Include="LibCore\Include\turbulence.h" />
+    <ClInclude Include="LibCore\Include\vectorset.h" />
+    <ClInclude Include="LibGL\Include\GL.h" />
+    <ClInclude Include="LibGL\Include\glew.h" />
+    <ClInclude Include="LibHeightfield\Include\gpusediment.h" />
+    <ClInclude Include="LibHeightfield\Include\gputerrainsimu.h" />
+    <ClInclude Include="LibHeightfield\Include\heightfield.h" />
+    <ClInclude Include="LibHeightfield\Include\ms_spe_gpu.h" />
+    <ClInclude Include="LibMaya\Include\evectorfloat.h" />
+    <ClInclude Include="LibMaya\Include\realtime.h" />
+    <CustomBuild Include="LibMaya\Include\realtime.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QtDir)\bin\moc.exe -f%(Filename)%(Extension) LibMaya\Include\%(Filename)%(Extension) -o LibMaya\Source\%(Filename)-moc.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing  LibMaya\Include\%(Filename)%(Extension)  into  LibMaya\Source\%(Filename)-moc.cpp</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">LibMaya\Source\%(Filename)-moc.cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QtDir)\bin\moc.exe</AdditionalInputs>
+
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">LibMaya\Source\%(Filename)-moc.cpp</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing  LibMaya\Include\%(Filename)%(Extension)  into  LibMaya\Source\%(Filename)-moc.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QtDir)\bin\moc.exe -f%(Filename)%(Extension) LibMaya\Include\%(Filename)%(Extension) -o LibMaya\Source\%(Filename)-moc.cpp</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QtDir)\bin\moc.exe</AdditionalInputs>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\app-qt.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Source\app-test.cpp" />
     <ClCompile Include="Source\article-utils.cpp" />
     <ClCompile Include="Source\displacement-function.cpp" />
     <ClCompile Include="Source\graph.cpp" />
     <ClCompile Include="Source\histogramd.cpp" />
-    <ClCompile Include="Source\iso-line-terrain.cpp" />
     <ClCompile Include="Source\iso-line.cpp" />
+    <ClCompile Include="Source\iso-line-terrain.cpp" />
     <ClCompile Include="Source\iso-vecto-generation-v1.cpp" />
     <ClCompile Include="Source\iso-vecto-generation-v2.cpp" />
     <ClCompile Include="Source\iso-vecto-generation-v3.cpp" />
-    <ClCompile Include="Source\iso-view-moc.cpp" />
     <ClCompile Include="Source\iso-view.cpp" />
+    <ClCompile Include="Source\iso-view-moc.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\main-window.cpp" />
+    <ClCompile Include="Source\main-window-app.cpp" />
+    <ClCompile Include="Source\main-window-moc.cpp" />
     <ClCompile Include="Source\misc.cpp" />
-    <ClCompile Include="Source\qte-moc.cpp" />
-    <ClCompile Include="Source\qtemainwindow.cpp" />
     <ClCompile Include="Source\tin.cpp" />
-    <ClCompile Include="Source\window-pipeline.cpp" />
+    <ClCompile Include="LibCore\Source\analyticpalette.cpp" />
+    <ClCompile Include="LibCore\Source\analyticscalarfield2.cpp" />
+    <ClCompile Include="LibCore\Source\array2.cpp" />
+    <ClCompile Include="LibCore\Source\box.cpp" />
+    <ClCompile Include="LibCore\Source\box2.cpp" />
+    <ClCompile Include="LibCore\Source\camera.cpp" />
+    <ClCompile Include="LibCore\Source\circle2.cpp" />
+    <ClCompile Include="LibCore\Source\color.cpp" />
+    <ClCompile Include="LibCore\Source\cpu.cpp" />
+    <ClCompile Include="LibCore\Source\cubic.cpp" />
+    <ClCompile Include="LibCore\Source\curvecubic2.cpp" />
+    <ClCompile Include="LibCore\Source\diffusion.cpp" />
+    <ClCompile Include="LibCore\Source\disctilelink.cpp" />
+    <ClCompile Include="LibCore\Source\eden2.cpp" />
+    <ClCompile Include="LibCore\Source\evector.cpp" />
+    <ClCompile Include="LibCore\Source\evector2.cpp" />
+    <ClCompile Include="LibCore\Source\frame.cpp" />
+    <ClCompile Include="LibCore\Source\framescaled.cpp" />
+    <ClCompile Include="LibCore\Source\gpu-shader.cpp" />
+    <ClCompile Include="LibCore\Source\hashtable.cpp" />
+    <ClCompile Include="LibCore\Source\histogram.cpp" />
+    <ClCompile Include="LibCore\Source\lines2.cpp" />
+    <ClCompile Include="LibCore\Source\matrix.cpp" />
+    <ClCompile Include="LibCore\Source\matrix2.cpp" />
+    <ClCompile Include="LibCore\Source\matrix4.cpp" />
+    <ClCompile Include="LibCore\Source\mesh-extrusion.cpp" />
+    <ClCompile Include="LibCore\Source\mesh.cpp" />
+    <ClCompile Include="LibCore\Source\mesh2.cpp" />
+    <ClCompile Include="LibCore\Source\noise2.cpp" />
+    <ClCompile Include="LibCore\Source\palette.cpp" />
+    <ClCompile Include="LibCore\Source\particle2.cpp" />
+    <ClCompile Include="LibCore\Source\plane.cpp" />
+    <ClCompile Include="LibCore\Source\pointcurve2.cpp" />
+    <ClCompile Include="LibCore\Source\polygon2.cpp" />
+    <ClCompile Include="LibCore\Source\polygons2.cpp" />
+    <ClCompile Include="LibCore\Source\random.cpp" />
+    <ClCompile Include="LibCore\Source\sampling2.cpp" />
+    <ClCompile Include="LibCore\Source\scalarfield2-smooth.cpp" />
+    <ClCompile Include="LibCore\Source\scalarfield2.cpp" />
+    <ClCompile Include="LibCore\Source\segment2.cpp" />
+    <ClCompile Include="LibCore\Source\system.cpp" />
+    <ClCompile Include="LibCore\Source\triangle.cpp" />
+    <ClCompile Include="LibCore\Source\triangle2.cpp" />
+    <ClCompile Include="LibCore\Source\turbulence2.cpp" />
+    <ClCompile Include="LibCore\Source\vectorset2.cpp" />
+    <ClCompile Include="LibHeightfield\Source\gputerrainsimu_test.cpp" />
+    <ClCompile Include="LibHeightfield\Source\gputhermalsimple.cpp" />
+    <ClCompile Include="LibHeightfield\Source\gpu_deposition.cpp" />
+    <ClCompile Include="LibHeightfield\Source\heightfield-access.cpp" />
+    <ClCompile Include="LibHeightfield\Source\heightfield-flow.cpp" />
+    <ClCompile Include="LibHeightfield\Source\heightfield.cpp" />
+    <ClCompile Include="LibHeightfield\Source\ms_spe_gpu.cpp" />
+    <ClCompile Include="LibMaya\Source\evectorfloat.cpp" />
+    <ClCompile Include="LibMaya\Source\mesh-widget.cpp" />
+    <ClCompile Include="LibMaya\Source\realtime-moc.cpp" />
+    <ClCompile Include="LibMaya\Source\terrain-raytracingwidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\interface.ui">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR64)\bin\uic.exe UI\%(Filename)%(Extension) -o Include\uic_%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QtDir)\bin\uic.exe UI\%(Filename)%(Extension) -o Include\uic_%(Filename).h</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling  UI\%(Filename)%(Extension)  into  Include\uic_%(Filename).h</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Include\uic_%(Filename).h</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR64)\bin\uic.exe</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR64)\bin\uic.exe UI\%(Filename)%(Extension) -o Include\uic_%(Filename).h</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QtDir)\bin\uic.exe</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QtDir)\bin\uic.exe UI\%(Filename)%(Extension) -o Include\uic_%(Filename).h</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling  UI\%(Filename)%(Extension)  into  Include\uic_%(Filename).h</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Include\uic_%(Filename).h</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR64)\bin\uic.exe</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QtDir)\bin\uic.exe</AdditionalInputs>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="LibCore\Shaders\diffusion.glsl" />
+    <None Include="LibGL\bin\glew32.dll" />
+    <None Include="LibHeightfield\Shaders\deposition.glsl" />
+    <None Include="LibHeightfield\Shaders\heightfield_thermal_simple.glsl" />
+    <None Include="LibHeightfield\Shaders\map_add.glsl" />
+    <None Include="LibHeightfield\Shaders\map_processing.glsl" />
+    <None Include="LibHeightfield\Shaders\ms_spe_gpu.glsl" />
+    <None Include="LibMaya\Shaders\boundingBox.glsl" />
+    <None Include="LibMaya\Shaders\heightfield_raytrace.glsl" />
+    <None Include="LibMaya\Shaders\mesh.glsl" />
+    <None Include="LibMaya\Shaders\pbr_terrain.glsl" />
+    <None Include="LibMaya\Shaders\skybox.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="LibGL\Library\glew32.lib" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
 </Project>

@@ -5,10 +5,11 @@
 #include "heightfield.h"
 #include "displacement-function.h"
 #include "histogramd.h"
+#include "camera.h"
 
 typedef TerrainRaytracingWidget::PBR_Render_Options RenderOpt;
 
-class MainAmplificationWindow : public QMainWindow {
+class MainWindow : public QMainWindow {
 	Q_OBJECT
 
   private:
@@ -76,8 +77,8 @@ class MainAmplificationWindow : public QMainWindow {
 	};
 
   public:
-	MainAmplificationWindow();
-	~MainAmplificationWindow();
+	MainWindow();
+	~MainWindow();
 
 	void keyPressEvent(QKeyEvent* event) override;
 

@@ -1,7 +1,11 @@
 #include "iso-line.h"
-#include "draw.h"
 #include "curvepoint.h"
+#include "curve.h"
+#include "triangle.h"
 #include "displacement-function.h"
+
+#include <QtCore/QStack>
+#include <QtCore/QQueue>
 
 using namespace std;
 
@@ -61,8 +65,8 @@ void IsoLinePoly::Epurate(double eps)
 		}
 	}
 
-	// On vérifie la relation entre le premier et le dernier point
-	// On continue tant que le dernier segment est trop gros (car rien n'affirme qu'il ne sera pas trop grand une fois le dernier point supprimé)
+	// On vï¿½rifie la relation entre le premier et le dernier point
+	// On continue tant que le dernier segment est trop gros (car rien n'affirme qu'il ne sera pas trop grand une fois le dernier point supprimï¿½)
 	while (!epuratePoly.isEmpty() && Norm(epuratePoly.constFirst() - epuratePoly.constLast()) < eps)
 	{
 		epuratePoly.removeLast();
@@ -164,7 +168,7 @@ IsoLinePoly IsoLinePoly::Resample(double distMax) const
 		// ajout premier point du segment
 		pts.append(q[i]);
 
-		// ajout points intermédiaires si besoin
+		// ajout points intermï¿½diaires si besoin
 		if (dist > distMax)
 		{
 			// nombre de points qu'il devrait y avoir entre 
@@ -206,7 +210,7 @@ IsoLinePoly IsoLinePoly::ResampleSpline(double distMax, double card) const
 		// ajout premier point du segment
 		pts.append(q[i]);
 
-		// ajout points intermédiaires si besoin
+		// ajout points intermï¿½diaires si besoin
 		if (dist > distMax)
 		{
 			// Define the spline between points i and i + 1
@@ -267,7 +271,7 @@ IsoLinePoly IsoLinePoly::Smooth2(int kmax, double delta, int niter) const
 Vector2 IsoLinePoly::SmoothPoint(int i, double d, double delta) const
 {
 	int n = Size();
-	// On fait un set pour éviter de devoir vérifier tous les indices
+	// On fait un set pour ï¿½viter de devoir vï¿½rifier tous les indices
 	// En vrai on peut faire plus efficacement et moins sale mais flemme
 	QSet<int> neighs;
 
@@ -432,7 +436,7 @@ IsoLinePoly IsoLinePoly::DisplacementTowardCurve(const PointCurve2& c, double r,
 
 \todo Pass this function into Polygon2 class
 	  Actuellement en O(n^2)
-	  Peut être amélioré avec l'algorithme de Bentley-Ottmann en O((n + m)log(n + m))
+	  Peut ï¿½tre amï¿½liorï¿½ avec l'algorithme de Bentley-Ottmann en O((n + m)log(n + m))
 
 \param p The polygon for comparison.
 */
@@ -447,20 +451,20 @@ IsoLinePoly::IntersectType IsoLinePoly::RelationWith(const Polygon2& p) const
 		}
 	}
 
-	// Si on n'a aucune intersection avec un segment, on a trois possibilités
-	// 1. On contient complètement l'autre polygone
+	// Si on n'a aucune intersection avec un segment, on a trois possibilitï¿½s
+	// 1. On contient complï¿½tement l'autre polygone
 	if (Inside(p.Vertex(0)))
 	{
 		return IntersectType::CONTAINS;
 	}
 
-	// 2. On est complètement contenu dans l'autre polygone
+	// 2. On est complï¿½tement contenu dans l'autre polygone
 	if (p.Inside(q.at(0)))
 	{
 		return IntersectType::INSIDE;
 	}
 
-	// 3.Les deux polygones sont complètement disjoints
+	// 3.Les deux polygones sont complï¿½tement disjoints
 	return IntersectType::INDEPENDENT;
 }
 
@@ -483,15 +487,15 @@ Vector2 IsoLinePoly::VertexNormal(int i) const
 
 	Vector2 bisector = v1 + v2;
 
-	// Les points sont alignés, donc la bissectrice est indéfinie
-	// mais dans notre cas, on veut juste le vecteur à 90 deg CCW (trigonometric order) par rapport au Vector2 v1
+	// Les points sont alignï¿½s, donc la bissectrice est indï¿½finie
+	// mais dans notre cas, on veut juste le vecteur ï¿½ 90 deg CCW (trigonometric order) par rapport au Vector2 v1
 	if (Norm(bisector) < 1e-12)
 	{
 		return Vector2(-v1[1], v1[0]);
 	}
 
-	// La bissectrice pointe toujours vers l'intérieur de l'angle
-	// Donc si on a un angle obtu (produit vectoriel négatif) on envoie l'inverse
+	// La bissectrice pointe toujours vers l'intï¿½rieur de l'angle
+	// Donc si on a un angle obtu (produit vectoriel nï¿½gatif) on envoie l'inverse
 	if (v1 / v2 < 0)
 		return -Normalized(bisector);
 	return Normalized(bisector);
@@ -591,8 +595,6 @@ QVector<int> IsoLinePoly::EarClip2() const
 	return indices;
 }
 
-
-
 IsoLines::IsoLines(const QVector<Polygon2>& polys, double hmin, double hmax, bool simple) : simple(simple)
 {
 	for (const Polygon2& p: polys)
@@ -641,7 +643,7 @@ IsoLines::IsoLines(const QVector<IsoLinePoly>& ilps, bool simple) : simple(simpl
 
 IsoLines::IsoLines(const ScalarField2& sf, const QSet<double>& heights, bool simple) : simple(simple)
 {
-	// Cas spécifique qui fait buguer `LineSegments()`
+	// Cas spï¿½cifique qui fait buguer `LineSegments()`
 	if (sf.VertexSize() == 0)
 		return;
 
@@ -650,10 +652,10 @@ IsoLines::IsoLines(const ScalarField2& sf, const QSet<double>& heights, bool sim
 	std::sort(values.begin(), values.end());
 	int n = values.size();
 
-	// Le but de tout ce calcul est d'éviter d'avoir une hauteur qui soit exactement une valeur d'un pixel du champ scalaire.
-	// Si c'est le cas, on risque d'avoir des segments qui se chevauchent et qui sont considérés comme s'auto-croisant, à cause des "crètes".
-	// Ces crètes se forment lorsque 2 pixels voisins de meme valeur sont entourés par des valeurs + grandes ou + basses.
-	// Donc on fait en sorte qu'aucune hauteur ne soit exactement la valeur d'un pixel pour éviter que ça arrive.
+	// Le but de tout ce calcul est d'ï¿½viter d'avoir une hauteur qui soit exactement une valeur d'un pixel du champ scalaire.
+	// Si c'est le cas, on risque d'avoir des segments qui se chevauchent et qui sont considï¿½rï¿½s comme s'auto-croisant, ï¿½ cause des "crï¿½tes".
+	// Ces crï¿½tes se forment lorsque 2 pixels voisins de meme valeur sont entourï¿½s par des valeurs + grandes ou + basses.
+	// Donc on fait en sorte qu'aucune hauteur ne soit exactement la valeur d'un pixel pour ï¿½viter que ï¿½a arrive.
 	QSet<double> specificHeights;
 	for (int i = 0; i < sf.VertexSize(); ++i)
 		specificHeights.insert(sf.at(i));
@@ -663,7 +665,7 @@ IsoLines::IsoLines(const ScalarField2& sf, const QSet<double>& heights, bool sim
 
 	for (double& h : values)
 		if (specificHeights.contains(h))
-			h = h + (max - min) / (heights.size() * 100); // Attention, petit epsilon qui ne marche pas nécessairement avec tous les terrains, mais suffisant pour l'instant
+			h = h + (max - min) / (heights.size() * 100); // Attention, petit epsilon qui ne marche pas nï¿½cessairement avec tous les terrains, mais suffisant pour l'instant
 	// Fin correction
 
 	for (int i = 0; i < n; ++i)
@@ -677,7 +679,7 @@ IsoLines::IsoLines(const ScalarField2& sf, const QSet<double>& heights, bool sim
 			IsoLinePoly ilp(p2.At(j), h);
 			// Si on supprime pas les trop petit segments avant d'extend, le polygone risque de s'auto-croiser. Note que c'est suffisant pour mes tests, mais la longueur des segments ne garanti pas aucune auto-intersection de Extend
 			ilp.Epurate(0.001);
-			// On étend le long de la normal en fonction de la hauteur pour ne pas avoir de polygone ayant une arète en commun, ce qui est souvent le cas si on n'est pas sur une ile. Et les tests avec des polygones qui partagent un segment c'est relou.
+			// On ï¿½tend le long de la normal en fonction de la hauteur pour ne pas avoir de polygone ayant une arï¿½te en commun, ce qui est souvent le cas si on n'est pas sur une ile. Et les tests avec des polygones qui partagent un segment c'est relou.
 			ilp.Extend(0.001 * (n - i) / (double)n);
 
 			// On ne garde que les grosses isos
@@ -711,9 +713,9 @@ IsoLines::IsoLines(const ScalarField2& sf, int nbLevels, bool simple) : IsoLines
 
 }
 
-// Récupère les isos entre les valeurs de histo (utilisé pour donner les nodes du graphe poisson)
-// Utilise le fait que le graph poisson a été assigné via une classe IsoVectoGeneration
-// On récupère les isos au hauteur (h[i] + h[i+1]) / 2 pour éviter les iso "crètes" (voir article)
+// Rï¿½cupï¿½re les isos entre les valeurs de histo (utilisï¿½ pour donner les nodes du graphe poisson)
+// Utilise le fait que le graph poisson a ï¿½tï¿½ assignï¿½ via une classe IsoVectoGeneration
+// On rï¿½cupï¿½re les isos au hauteur (h[i] + h[i+1]) / 2 pour ï¿½viter les iso "crï¿½tes" (voir article)
 IsoLines::IsoLines(const GraphPoisson& gp, const HistogramD& histo, bool simple) : simple(simple)
 {
 	QVector<double> heights;
@@ -825,7 +827,6 @@ bool IsoLines::InternalBorder(int i) const
 	GetRange(a, b);
 	return !isGrowing(i) && isos[i].H() == a;
 }
-
 
 /*
  * Return a copy of the isolines, with the center of them in (0, 0)
@@ -1045,18 +1046,6 @@ void IsoLines::Smooth(double d, double delta, int niter)
 	for (int i = 0; i < Size(); ++i)
 	{
 		isos[i] = isos[i].Smooth(d, delta, niter);
-	}
-}
-
-// Only smooth bigger isos, avoid to reduce small ones to lines or points
-void IsoLines::SmoothBig(int minSize, double d, double delta, int niter)
-{
-	for (int i = 0; i < Size(); ++i)
-	{
-		if (isos[i].Size() > minSize)
-		{
-			isos[i] = isos[i].Smooth(d, delta, niter);
-		}
 	}
 }
 
@@ -1461,34 +1450,6 @@ QVector<double> IsoLines::SortedHeights() const
 	return heights;
 }
 
-/*!
-\brief Return the histogram corresponding to the area taken by each different height
-*/
-HistogramD IsoLines::HeightsHistogram() const
-{
-	QMap<double, double> height_to_areas;
-
-	for (int i = 0; i < Size(); ++i)
-	{
-		double h = HeightInside(i);
-		if (!height_to_areas.contains(h))
-			height_to_areas[h] = 0;
-
-		height_to_areas[h] += isos[i].Area();
-		for (int c : children[i])
-			height_to_areas[h] -= isos[c].Area();
-	}
-
-	QVector<double> heights = SortedHeights();
-	QVector<double> areas(heights.size());
-	for (int i = 0; i < heights.size(); ++i)
-	{
-		areas[i] = height_to_areas[heights[i]];
-	}
-
-	return HistogramD(heights, areas);
-}
-
 ScalarField2 IsoLines::GetMask(int w, int h) const
 {
 	return GetMask(GetBox(), w, h);
@@ -1568,7 +1529,7 @@ QGraphicsScene* IsoLines::ToScene(const DisplayOptions& opt) const
 			QColor cin = opt.palette->GetColor(tin).GetQt();
 			QPen pen(opt.fill ? Qt::black : c);
 			pen.setWidth(l);
-			// TODO: c'est bien pour zoomer, mais ça marche pas bien sur une scène a exporter
+			// TODO: c'est bien pour zoomer, mais ï¿½a marche pas bien sur une scï¿½ne a exporter
 			//pen.setCosmetic(true);
 
 			if (opt.fill)

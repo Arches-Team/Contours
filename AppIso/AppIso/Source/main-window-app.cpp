@@ -1,4 +1,4 @@
-#include "qte.h"
+#include "main-window.h"
 #include "vectorset.h"
 #include "iso-line-terrain.h"
 #include "noise.h"
@@ -35,10 +35,7 @@ RenderOpt render_basic_opt(const IsoLines& isos, const ScalarField2& hf)
 
 	RenderOpt opt;
 	opt.nb_dispatch = 1;
-	//opt.nb_dispatch = 4;
 	opt.anti_aliasing = 1;
-	//opt.anti_aliasing = 2;
-	//opt.nb_iso = m_isos.Levels();
 	opt.iso_heights = heights;
 	opt.sea_level = (v[0] - a) / (b - a);
 	opt.terrain_color = Color::Grey(0.9);
@@ -62,7 +59,7 @@ void save_string_to_file(const QString& text, const QString& filePath)
 	file.close();
 }
 
-Polygon2 MainAmplificationWindow::PolygonReunion()
+Polygon2 MainWindow::PolygonReunion()
 {
 	VectorSet2 a({
 	  Vector2(0, 0),
@@ -149,7 +146,7 @@ Polygon2 MainAmplificationWindow::PolygonReunion()
 	return Polygon2(a.Get());
 }
 
-Polygon2 MainAmplificationWindow::PolygonHawaii()
+Polygon2 MainWindow::PolygonHawaii()
 {
 	VectorSet2 vs({
 	  Vector2(0, 0),
@@ -234,7 +231,7 @@ Polygon2 MainAmplificationWindow::PolygonHawaii()
 	return Polygon2(vs.Get());
 }
 
-Polygon2 MainAmplificationWindow::PolygonMan()
+Polygon2 MainWindow::PolygonMan()
 {
 	VectorSet2 a({
 	  Vector2(150.35714,697.71932),
@@ -1829,7 +1826,7 @@ HeightField iceland_hf(const Box2& box, int x, int y)
 
 #include "cpu.h"
 #include "misc.h"
-void MainAmplificationWindow::GenerateFigures()
+void MainWindow::GenerateFigures()
 {
 	generate_figures = true;
 	QString prefix = "Figures/";
@@ -1940,7 +1937,7 @@ void MainAmplificationWindow::GenerateFigures()
 	generate_figures = false;
 }
 
-void MainAmplificationWindow::GenerateFigure1(const QString& prefix)
+void MainWindow::GenerateFigure1(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2030,7 +2027,7 @@ void MainAmplificationWindow::GenerateFigure1(const QString& prefix)
 	//}
 }
 
-void MainAmplificationWindow::GenerateFigure2(const QString& prefix)
+void MainWindow::GenerateFigure2(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2073,7 +2070,7 @@ void MainAmplificationWindow::GenerateFigure2(const QString& prefix)
 	//System::SaveSvg(scene, prefix + "pipeline_edition.svg", box.GetQtRect());
 }
 
-void MainAmplificationWindow::GenerateFigure5(const QString& prefix)
+void MainWindow::GenerateFigure5(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2086,7 +2083,7 @@ void MainAmplificationWindow::GenerateFigure5(const QString& prefix)
 	ArticleUtils::EdenOnTin(sample, prefix + "eden4.svg");
 }
 
-void MainAmplificationWindow::GenerateFigure6And8(const QString& prefix)
+void MainWindow::GenerateFigure6And8(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2125,7 +2122,7 @@ void MainAmplificationWindow::GenerateFigure6And8(const QString& prefix)
 
 }
 
-void MainAmplificationWindow::GenerateFigure7(const QString& prefix)
+void MainWindow::GenerateFigure7(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2136,7 +2133,7 @@ void MainAmplificationWindow::GenerateFigure7(const QString& prefix)
 	ArticleUtils::GraphConstructionDebug(m, radius, prefix);
 }
 
-void MainAmplificationWindow::GenerateFigure10(const QString& prefix)
+void MainWindow::GenerateFigure10(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2173,7 +2170,7 @@ void MainAmplificationWindow::GenerateFigure10(const QString& prefix)
 	}
 }
 
-void MainAmplificationWindow::GenerateFigure11(const QString& prefix)
+void MainWindow::GenerateFigure11(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2210,7 +2207,7 @@ void MainAmplificationWindow::GenerateFigure11(const QString& prefix)
 	ExportIsosSVG(prefix + "uniform_isos.svg");
 }
 
-void MainAmplificationWindow::GenerateFigure12(const QString& prefix)
+void MainWindow::GenerateFigure12(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2232,7 +2229,7 @@ void MainAmplificationWindow::GenerateFigure12(const QString& prefix)
 	ArticleUtils::DoubleEdenBoundaries(m_generation_graph_zones, prefix);
 }
 
-void MainAmplificationWindow::GenerateFigure13And14(const QString& prefix)
+void MainWindow::GenerateFigure13And14(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2272,7 +2269,7 @@ void MainAmplificationWindow::GenerateFigure13And14(const QString& prefix)
 	ExportGraphZones(prefix + "multi_mask_zones.svg");
 }
 
-void MainAmplificationWindow::GenerateFigure16And19And20(const QString& prefix)
+void MainWindow::GenerateFigure16And19And20(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2598,7 +2595,7 @@ void MainAmplificationWindow::GenerateFigure16And19And20(const QString& prefix)
 	SetIsos(copy, false, true);
 }
 
-void MainAmplificationWindow::GenerateFigure21(const QString& prefix)
+void MainWindow::GenerateFigure21(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2613,17 +2610,11 @@ void MainAmplificationWindow::GenerateFigure21(const QString& prefix)
 	QVector<QString> masks =
 	{
 		"../images/input/multi_mask_2.png",
-		//"../images/input/mask_lambda.png",
-		//"../images/input/mask_desert.png",
-		//"../images/input/mask_triple.png",
 	};
 
 	QVector<QString> histos =
 	{
 		"../Data/dems/rockies_zoom_breach.png",
-		//3,
-		//"../Data/dems/rockies_zoom_breach.png",
-		//"../Data/dems/reunion.png",
 	};
 
 	ChangeBoxes(b);
@@ -2664,7 +2655,7 @@ void MainAmplificationWindow::GenerateFigure21(const QString& prefix)
 	}
 }
 
-void MainAmplificationWindow::GenerateFigure22(const QString& prefix)
+void MainWindow::GenerateFigure22(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2736,18 +2727,9 @@ void MainAmplificationWindow::GenerateFigure22(const QString& prefix)
 
 	DefaultExportOptions();
 
-	// comparisons
-	//for (int i = 0; i < sfs.size(); ++i)
-	//{
-	//	ChangeMaskFromFile(sfs[i], nb_zones[i], 0.01);
-	//	IsoLines isos = isolines_mask(m_generation_mask);
-	//	SetIsos(isos);
-	//	ExportIsosSVG(prefix + "verif_" + QString::number(i) + "_isos.svg");
-	//	ExportIsosInterpolate(prefix + "verif_" + QString::number(i) + "_inter.png", 256, 256);
-	//}
 }
 
-void MainAmplificationWindow::GenerateFigure23(const QString& prefix)
+void MainWindow::GenerateFigure23(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2814,7 +2796,7 @@ void MainAmplificationWindow::GenerateFigure23(const QString& prefix)
 	}
 }
 
-void MainAmplificationWindow::GenerateFigure24(const QString& prefix)
+void MainWindow::GenerateFigure24(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2833,24 +2815,15 @@ void MainAmplificationWindow::GenerateFigure24(const QString& prefix)
 	ChangeHistogramFromFile(sf, nb_isos);
 	ChangeEstimatedNbParticles(nb_particles);
 	ChangeNoise(fbm(256, 256, 10), 3);
-	//ChangeNoise(uniform(256, 256));
 	ChangeHeights(min_height, max_height);
 	LookDownCamera();
 
 	for (int i = 0; i < smooths.size(); ++i)
 	{
-		// Decomment for same area regions
-		//QSet<double> heights;
-		//heights.insert(20);
-		//heights.insert(500);
-		//heights.insert(2000);
 
 		//HeightField real_middle(b, QImage(sf).scaled(512, 512, Qt::KeepAspectRatio, Qt::FastTransformation).flipped(), min_height, max_height);
 		//real_middle.Smooth(smooths[i]);
 		//real_middle.SetRange(min_height, max_height);
-
-		//IsoLines iso_mask(real_middle, heights);
-		//ChangeMaskFromIsos(iso_mask);
 
 		// Same heights  difference between bins
 		ChangeMaskFromFile(sf, 3, 0.01, smooths[i]);
@@ -2870,7 +2843,7 @@ void MainAmplificationWindow::GenerateFigure24(const QString& prefix)
 	ExportHistogram(prefix + "histogram.svg");
 }
 
-void MainAmplificationWindow::GenerateFigure25AndTable1(const QString& prefix)
+void MainWindow::GenerateFigure25AndTable1(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -2935,7 +2908,6 @@ void MainAmplificationWindow::GenerateFigure25AndTable1(const QString& prefix)
 
 				qint64 t1 = timer.elapsed();
 
-				//GenerateV3();
 				GenerateV3Endo();
 
 				qint64 t2 = timer.elapsed();
@@ -2976,7 +2948,6 @@ void MainAmplificationWindow::GenerateFigure25AndTable1(const QString& prefix)
 	auto g = [&](int nb_particles)
 		{
 			ChangeEstimatedNbParticles(nb_particles);
-			//CreateGenerationZones();
 
 			QElapsedTimer timer;
 			timer.start();
@@ -2995,7 +2966,6 @@ void MainAmplificationWindow::GenerateFigure25AndTable1(const QString& prefix)
 
 					qint64 t1 = timer.elapsed();
 
-					//GenerateV3();
 					GenerateV3Endo();
 
 					qint64 t2 = timer.elapsed();
@@ -3033,7 +3003,7 @@ void MainAmplificationWindow::GenerateFigure25AndTable1(const QString& prefix)
 	}
 }
 
-void MainAmplificationWindow::GenerateFigure26(const QString& prefix)
+void MainWindow::GenerateFigure26(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -3098,7 +3068,7 @@ void MainAmplificationWindow::GenerateFigure26(const QString& prefix)
 	ExportPBRRender(opt, prefix + "orometry_pbr.png");
 }
 
-void MainAmplificationWindow::GenerateFigure27(const QString& prefix)
+void MainWindow::GenerateFigure27(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -3435,7 +3405,7 @@ void MainAmplificationWindow::GenerateFigure27(const QString& prefix)
 	*/
 }
 
-void MainAmplificationWindow::GenerateFigure28(const QString& prefix)
+void MainWindow::GenerateFigure28(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -3564,7 +3534,7 @@ void MainAmplificationWindow::GenerateFigure28(const QString& prefix)
 	//ExportPBRRender(opt, prefix + "real_pbr.png");
 }
 
-void MainAmplificationWindow::GenerateFigurePresentation1(const QString& prefix)
+void MainWindow::GenerateFigurePresentation1(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -3607,7 +3577,7 @@ void MainAmplificationWindow::GenerateFigurePresentation1(const QString& prefix)
 	System::SaveSvg(scene, prefix + "isos_zoom.svg", zoom.GetQtRect());
 }
 
-void MainAmplificationWindow::GenerateFigurePresentation2(const QString& prefix)
+void MainWindow::GenerateFigurePresentation2(const QString& prefix)
 {
 	QDir dir(prefix + "gifs/");
 	if (!dir.exists())
@@ -3686,7 +3656,7 @@ void MainAmplificationWindow::GenerateFigurePresentation2(const QString& prefix)
 	m_extraction_opt = ExtractionOpt();
 }
 
-void MainAmplificationWindow::GenerateFigurePresentation3(const QString& prefix)
+void MainWindow::GenerateFigurePresentation3(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -3768,7 +3738,7 @@ void MainAmplificationWindow::GenerateFigurePresentation3(const QString& prefix)
 	m_extraction_opt = ExtractionOpt();
 }
 
-void MainAmplificationWindow::GenerateFigurePresentation4(const QString& prefix)
+void MainWindow::GenerateFigurePresentation4(const QString& prefix)
 {
 	QDir dir1(prefix + "gifs-bad/");
 	if (!dir1.exists())
@@ -3807,10 +3777,9 @@ void MainAmplificationWindow::GenerateFigurePresentation4(const QString& prefix)
 	ExportGraphsDoubleEdenGif(prefix + "gifs-good/");
 	ExportGraphResultSplit(prefix + "graph-good-");
 
-
 }
 
-void MainAmplificationWindow::GenerateFigurePresentation5(const QString& prefix)
+void MainWindow::GenerateFigurePresentation5(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -3859,7 +3828,7 @@ void MainAmplificationWindow::GenerateFigurePresentation5(const QString& prefix)
 	m_extraction_opt = ExtractionOpt();
 }
 
-void MainAmplificationWindow::GenerateFigurePresentation6(const QString& prefix)
+void MainWindow::GenerateFigurePresentation6(const QString& prefix)
 {
 	QDir dir(prefix);
 	if (!dir.exists())
@@ -3975,7 +3944,7 @@ void MainAmplificationWindow::GenerateFigurePresentation6(const QString& prefix)
 ////      PARAMETERS       ////
 ///////////////////////////////
 
-void MainAmplificationWindow::ResetHistogramView()
+void MainWindow::ResetHistogramView()
 {
 	if (generate_figures)
 		return;
@@ -3988,7 +3957,7 @@ void MainAmplificationWindow::ResetHistogramView()
 	m_uiw.histogram_view->scale(1, -1);
 }
 
-void MainAmplificationWindow::ChangeHistogram(const HistogramD& histo)
+void MainWindow::ChangeHistogram(const HistogramD& histo)
 {
 	m_generation_histogram = histo;
 	m_uiw.histogram_nb_isos_edit->setText(QString::number(histo.Size()));
@@ -3997,7 +3966,7 @@ void MainAmplificationWindow::ChangeHistogram(const HistogramD& histo)
 	SetIsosFromHistogram();
 }
 
-void MainAmplificationWindow::ChangeHistogramFromFile(const QString& file, int size)
+void MainWindow::ChangeHistogramFromFile(const QString& file, int size)
 {
 	size = Math::Max(1, size);
 	m_generation_histogram_file = file;
@@ -4006,7 +3975,7 @@ void MainAmplificationWindow::ChangeHistogramFromFile(const QString& file, int s
 	ChangeHistogram(histo_from_hf(ScalarField2(QImage(file).scaled(512, 512, Qt::KeepAspectRatio, Qt::FastTransformation)), size));
 }
 
-void MainAmplificationWindow::ChangeHistogramFromFunction(int i, int size)
+void MainWindow::ChangeHistogramFromFunction(int i, int size)
 {
 	size = Math::Max(1, size);
 	m_uiw.histogram_function_selector->setCurrentIndex(i + 1);
@@ -4014,7 +3983,7 @@ void MainAmplificationWindow::ChangeHistogramFromFunction(int i, int size)
 }
 
 // convenient
-void MainAmplificationWindow::ChangeHistogramFromUI()
+void MainWindow::ChangeHistogramFromUI()
 {
 	int id = m_uiw.histogram_function_selector->currentIndex();
 	int size = m_uiw.histogram_nb_isos_edit->text().toInt();
@@ -4024,7 +3993,7 @@ void MainAmplificationWindow::ChangeHistogramFromUI()
 		ChangeHistogramFromFunction(id - 1, size);
 }
 
-void MainAmplificationWindow::BrowseHistogram()
+void MainWindow::BrowseHistogram()
 {
 	QString fileName = QFileDialog::getOpenFileName(
 		this,
@@ -4039,7 +4008,7 @@ void MainAmplificationWindow::BrowseHistogram()
 	}
 }
 
-void MainAmplificationWindow::ResetNoiseView()
+void MainWindow::ResetNoiseView()
 {
 	if (generate_figures)
 		return;
@@ -4059,7 +4028,7 @@ void MainAmplificationWindow::ResetNoiseView()
 	m_uiw.noise_view->scale(1, -1);
 }
 
-void MainAmplificationWindow::ChangeNoise(const ScalarField2& noise, double pow)
+void MainWindow::ChangeNoise(const ScalarField2& noise, double pow)
 {
 	m_generation_noise_without_pow = noise;
 	m_generation_noise = change_sf_box(m_generation_noise_without_pow, m_generation_box);
@@ -4069,19 +4038,19 @@ void MainAmplificationWindow::ChangeNoise(const ScalarField2& noise, double pow)
 	ResetNoiseView();
 }
 
-void MainAmplificationWindow::ChangeNoiseFromFile(const QString& file, double pow)
+void MainWindow::ChangeNoiseFromFile(const QString& file, double pow)
 {
 	m_generation_noise_file = file;
 	// Pour que l'image ne soit pas trop grosse
 	ChangeNoise(ScalarField2(QImage(file).scaled(512, 512, Qt::KeepAspectRatio, Qt::FastTransformation).flipped()), pow);
 }
 
-void MainAmplificationWindow::ChangeNoisePower(double pow)
+void MainWindow::ChangeNoisePower(double pow)
 {
 	ChangeNoise(m_generation_noise_without_pow, pow);
 }
 
-void MainAmplificationWindow::BrowseNoise()
+void MainWindow::BrowseNoise()
 {
 	QString fileName = QFileDialog::getOpenFileName(
 		this,
@@ -4097,7 +4066,7 @@ void MainAmplificationWindow::BrowseNoise()
 	}
 }
 
-void MainAmplificationWindow::ResetMaskView()
+void MainWindow::ResetMaskView()
 {
 	if (generate_figures)
 		return;
@@ -4109,7 +4078,7 @@ void MainAmplificationWindow::ResetMaskView()
 	m_uiw.mask_view->scale(1, -1);
 }
 
-void MainAmplificationWindow::ChangeMask(const ScalarField2& sf)
+void MainWindow::ChangeMask(const ScalarField2& sf)
 {
 	m_generation_mask = change_sf_box(sf, m_generation_box);
 	m_generation_mask.Normalize();
@@ -4121,7 +4090,7 @@ void MainAmplificationWindow::ChangeMask(const ScalarField2& sf)
 	ResetPoissonRadius();
 }
 
-void MainAmplificationWindow::ChangeMaskFromFile(const QString& file, int nb_isos, double sea_level, int smooth_number)
+void MainWindow::ChangeMaskFromFile(const QString& file, int nb_isos, double sea_level, int smooth_number)
 {
 	nb_isos = Math::Max(1, nb_isos);
 	sea_level = Math::Max(0.01, Math::Min(0.99, sea_level));
@@ -4135,7 +4104,7 @@ void MainAmplificationWindow::ChangeMaskFromFile(const QString& file, int nb_iso
 	ChangeMask(thresholding(mask_field, nb_isos, sea_level, smooth_number));
 }
 
-void MainAmplificationWindow::ChangeMaskFromMaskFile(const QString& file)
+void MainWindow::ChangeMaskFromMaskFile(const QString& file)
 {
 	ScalarField2 sf(QImage(file).flipped());
 
@@ -4155,12 +4124,12 @@ void MainAmplificationWindow::ChangeMaskFromMaskFile(const QString& file)
 	ChangeMask(sf);
 }
 
-void MainAmplificationWindow::ChangeMaskParams(int nb_isos, double sea_level)
+void MainWindow::ChangeMaskParams(int nb_isos, double sea_level)
 {
 	ChangeMaskFromFile(m_generation_mask_file, nb_isos, sea_level);
 }
 
-void MainAmplificationWindow::ChangeMaskFromIsos(const IsoLines& isos)
+void MainWindow::ChangeMaskFromIsos(const IsoLines& isos)
 {
 	if (isos.Size() == 0)
 		return;
@@ -4176,12 +4145,12 @@ void MainAmplificationWindow::ChangeMaskFromIsos(const IsoLines& isos)
 	ChangeMask(mask_from_isos(m_generation_box, isosCopy, 512, 512));
 }
 
-void MainAmplificationWindow::ChangeMaskFromCurrentIsos()
+void MainWindow::ChangeMaskFromCurrentIsos()
 {
 	ChangeMaskFromIsos(m_isos);
 }
 
-void MainAmplificationWindow::BrowseMask()
+void MainWindow::BrowseMask()
 {
 	QString fileName = QFileDialog::getOpenFileName(
 		this,
@@ -4196,7 +4165,7 @@ void MainAmplificationWindow::BrowseMask()
 	}
 }
 
-void MainAmplificationWindow::ResetPoissonRadius()
+void MainWindow::ResetPoissonRadius()
 {
 	// Il est plus simple de permettre à l'utilisateur de choisir le nombre de particules N
 	// Cependant, la génération demande non pas un nombre N mais un rayon r, donc on estime le nombre r en fonction des paramètres
@@ -4217,13 +4186,13 @@ void MainAmplificationWindow::ResetPoissonRadius()
 	m_generation_radius = sqrt(area / n) / ratio;
 }
 
-void MainAmplificationWindow::ChangeEstimatedNbParticles(int n)
+void MainWindow::ChangeEstimatedNbParticles(int n)
 {
 	m_uiw.poisson_radius_edit->setText(QString::number(n));
 	ResetPoissonRadius();
 }
 
-void MainAmplificationWindow::ResetGenBox()
+void MainWindow::ResetGenBox()
 {
 	double center_x = m_uiw.generation_box_x_edit->text().toDouble() * 1000;
 	double center_y = m_uiw.generation_box_y_edit->text().toDouble() * 1000;
@@ -4240,7 +4209,7 @@ void MainAmplificationWindow::ResetGenBox()
 	ChangeNoise(m_generation_noise);
 }
 
-void MainAmplificationWindow::ChangeGenBox(const Box2& b)
+void MainWindow::ChangeGenBox(const Box2& b)
 {
 	m_uiw.generation_box_x_edit->setText(QString::number(b.Center()[0] / 1000.));
 	m_uiw.generation_box_y_edit->setText(QString::number(b.Center()[1] / 1000.));
@@ -4249,7 +4218,7 @@ void MainAmplificationWindow::ChangeGenBox(const Box2& b)
 	ResetGenBox();
 }
 
-void MainAmplificationWindow::ResetViewBox()
+void MainWindow::ResetViewBox()
 {
 	double center_x = m_uiw.view_box_x_edit->text().toDouble() * 1000;
 	double center_y = m_uiw.view_box_y_edit->text().toDouble() * 1000;
@@ -4263,7 +4232,7 @@ void MainAmplificationWindow::ResetViewBox()
 	ResetCamera();
 }
 
-void MainAmplificationWindow::ChangeViewBox(const Box2& b)
+void MainWindow::ChangeViewBox(const Box2& b)
 {
 	m_uiw.view_box_x_edit->setText(QString::number(b.Center()[0] / 1000.));
 	m_uiw.view_box_y_edit->setText(QString::number(b.Center()[1] / 1000.));
@@ -4272,13 +4241,13 @@ void MainAmplificationWindow::ChangeViewBox(const Box2& b)
 	ResetViewBox();
 }
 
-void MainAmplificationWindow::ChangeBoxes(const Box2& b)
+void MainWindow::ChangeBoxes(const Box2& b)
 {
 	ChangeViewBox(b);
 	ChangeGenBox(b);
 }
 
-void MainAmplificationWindow::ResetHeights()
+void MainWindow::ResetHeights()
 {
 	m_min_height = m_uiw.heights_min_edit->text().toDouble();
 	m_max_height = m_uiw.heights_max_edit->text().toDouble();
@@ -4289,14 +4258,14 @@ void MainAmplificationWindow::ResetHeights()
 	SetIsos(m_isos);
 }
 
-void MainAmplificationWindow::ChangeHeights(double min, double max)
+void MainWindow::ChangeHeights(double min, double max)
 {
 	m_uiw.heights_min_edit->setText(QString::number(min));
 	m_uiw.heights_max_edit->setText(QString::number(max));
 	ResetHeights();
 }
 
-void MainAmplificationWindow::ResetTerrainSize()
+void MainWindow::ResetTerrainSize()
 {
 	m_terrain_x = m_uiw.terrain_x_edit->text().toDouble();
 	m_terrain_y = m_uiw.terrain_y_edit->text().toDouble();
@@ -4308,14 +4277,14 @@ void MainAmplificationWindow::ResetTerrainSize()
 	RecomputeTerrainFromIsos();
 }
 
-void MainAmplificationWindow::ChangeTerrainSize(double x, double y)
+void MainWindow::ChangeTerrainSize(double x, double y)
 {
 	m_uiw.terrain_x_edit->setText(QString::number(x));
 	m_uiw.terrain_y_edit->setText(QString::number(y));
 	ResetTerrainSize();
 }
 
-void MainAmplificationWindow::ResetCamera()
+void MainWindow::ResetCamera()
 {
 	m_camera_longitude = Math::Max(0, Math::Min(360, m_uiw.camera_longitude_angle_edit->text().toDouble()));
 	m_camera_latitude = Math::Max(-90, Math::Min(90, m_uiw.camera_latitude_angle_edit->text().toDouble()));
@@ -4364,7 +4333,7 @@ void MainAmplificationWindow::ResetCamera()
  * \param phi : [0, 180]
  * \param dist : The distance factor to the terrain
  */
-void MainAmplificationWindow::ChangeCamera(double longitude, double latitude, double dist, const Vector& lookat)
+void MainWindow::ChangeCamera(double longitude, double latitude, double dist, const Vector& lookat)
 {
 	m_uiw.camera_longitude_angle_edit->setText(QString::number(longitude));
 	m_uiw.camera_latitude_angle_edit->setText(QString::number(latitude));
@@ -4375,7 +4344,7 @@ void MainAmplificationWindow::ChangeCamera(double longitude, double latitude, do
 	ResetCamera();
 }
 
-void MainAmplificationWindow::ChangeCamera(const Camera& c)
+void MainWindow::ChangeCamera(const Camera& c)
 {
 	//m_meshWidget->SetCamera(c);
 
@@ -4402,18 +4371,18 @@ void MainAmplificationWindow::ChangeCamera(const Camera& c)
 	m_uiw.camera_lookat_z_edit->setText(QString::number(m_camera_lookat[2]));
 }
 
-void MainAmplificationWindow::DefaultCamera()
+void MainWindow::DefaultCamera()
 {
 	//ChangeCamera(225, 26.565);
 	ChangeCamera(250, 50);
 }
 
-void MainAmplificationWindow::LookDownCamera()
+void MainWindow::LookDownCamera()
 {
 	ChangeCamera(270, 90);
 }
 
-void MainAmplificationWindow::ResetEditionOptions()
+void MainWindow::ResetEditionOptions()
 {
 	m_edition_radius = Math::Max(0.1, m_uiw.edition_radius_edit->text().toDouble());
 	m_edition_point_min_dist = Math::Max(0.1, m_uiw.point_min_dist_edit->text().toDouble());
@@ -4424,7 +4393,7 @@ void MainAmplificationWindow::ResetEditionOptions()
 	m_uiw.expected_points_text->setText("> " + QString::number(Math::Ceil(m_isos.TotalLength() / m_edition_point_min_dist)) + " pts");
 }
 
-void MainAmplificationWindow::ResetSmoothingOptions()
+void MainWindow::ResetSmoothingOptions()
 {
 	m_smoothing_delta = Math::Max(0, Math::Min(1, m_uiw.edition_delta_edit->value()));
 	m_smoothing_dist = m_uiw.edition_dist_edit->text().toDouble();
@@ -4432,20 +4401,20 @@ void MainAmplificationWindow::ResetSmoothingOptions()
 	m_uiw.edition_dist_edit->setText(QString::number(m_smoothing_dist));
 }
 
-void MainAmplificationWindow::ResetWarpingOptions()
+void MainWindow::ResetWarpingOptions()
 {
 	m_warping_pow = m_uiw.warp_pow_edit->value();
 	m_warping_strength = m_uiw.warp_strength_edit->value();
 	m_warping_factor = m_uiw.warp_factor_eps_edit->value();
 }
 
-void MainAmplificationWindow::ResetSlopingOptions()
+void MainWindow::ResetSlopingOptions()
 {
 	m_sloping_pow = m_uiw.slope_pow_edit->value();
 	m_sloping_strength = m_uiw.slope_strength_edit->value();
 }
 
-void MainAmplificationWindow::ResetProtectingOptions()
+void MainWindow::ResetProtectingOptions()
 {
 	m_protecting_remove = m_uiw.toggle_remove_circles->isChecked();
 	m_protecting_iso_max_length = Math::Max(0, m_uiw.protect_small_isolines_edit->text().toDouble());
@@ -4455,7 +4424,7 @@ void MainAmplificationWindow::ResetProtectingOptions()
 	m_uiw.iso_view->DisplayProtectedZones(show);
 }
 
-void MainAmplificationWindow::ChangeEditionTool(int index)
+void MainWindow::ChangeEditionTool(int index)
 {
 	m_current_tool = (EditTool)index;
 	switch (m_current_tool)
@@ -4480,37 +4449,37 @@ void MainAmplificationWindow::ChangeEditionTool(int index)
 	m_uiw.edition_tool_selector->setCurrentIndex(index);
 }
 
-void MainAmplificationWindow::ChangeEditionRadius(double radius)
+void MainWindow::ChangeEditionRadius(double radius)
 {
 	m_uiw.edition_radius_edit->setText(QString::number(radius));
 	ResetEditionOptions();
 }
 
-void MainAmplificationWindow::ChangeEditionResamplingMinDist(double min_dist)
+void MainWindow::ChangeEditionResamplingMinDist(double min_dist)
 {
 	m_uiw.point_min_dist_edit->setText(QString::number(min_dist));
 	ResetEditionOptions();
 }
 
-void MainAmplificationWindow::ChangeSmoothingDistOption(double dist)
+void MainWindow::ChangeSmoothingDistOption(double dist)
 {
 	m_uiw.edition_dist_edit->setText(QString::number(dist));
 	ResetSmoothingOptions();
 }
 
-void MainAmplificationWindow::ChangeSmoothingDeltaOption(double delta)
+void MainWindow::ChangeSmoothingDeltaOption(double delta)
 {
 	m_uiw.edition_delta_edit->setValue(delta);
 	ResetSmoothingOptions();
 }
 
-void MainAmplificationWindow::ChangeProtectionMaxLength(double max_length)
+void MainWindow::ChangeProtectionMaxLength(double max_length)
 {
 	m_uiw.protect_small_isolines_edit->setText(QString::number(max_length));
 	ResetProtectingOptions();
 }
 
-void MainAmplificationWindow::ResetExportOptions()
+void MainWindow::ResetExportOptions()
 {
 	m_extraction_opt.extract_isos = m_uiw.export_isos_toggle->isChecked();
 	m_extraction_opt.extract_pbr = m_uiw.export_pbr_toggle->isChecked();
@@ -4519,7 +4488,7 @@ void MainAmplificationWindow::ResetExportOptions()
 	m_extraction_opt.extract_interpolate = m_uiw.export_inter_toggle->isChecked();
 }
 
-void MainAmplificationWindow::ChangeExportOptions(const ExtractionOpt& opt)
+void MainWindow::ChangeExportOptions(const ExtractionOpt& opt)
 {
 	m_extraction_opt = opt;
 	m_uiw.export_isos_toggle->setChecked(opt.extract_isos);
@@ -4531,7 +4500,7 @@ void MainAmplificationWindow::ChangeExportOptions(const ExtractionOpt& opt)
 	ResetExportOptions();
 }
 
-void MainAmplificationWindow::DefaultExportOptions()
+void MainWindow::DefaultExportOptions()
 {
 	ChangeExportOptions(ExtractionOpt());
 }
@@ -4541,7 +4510,7 @@ void MainAmplificationWindow::DefaultExportOptions()
 ///////////////////////////////
 
 // Enregistre la scene actuelle dans une image
-void MainAmplificationWindow::ExportSceneImage(const QString& name)
+void MainWindow::ExportSceneImage(const QString& name)
 {
 	QString finalname = name;
 	if (name == "")
@@ -4563,7 +4532,7 @@ void MainAmplificationWindow::ExportSceneImage(const QString& name)
 }
 
 // Enregistre une image svg des isolignes actuelles
-void MainAmplificationWindow::ExportIsosSVG(const QString& name)
+void MainWindow::ExportIsosSVG(const QString& name)
 {
 	if (m_isos.Size() == 0)
 	{
@@ -4596,7 +4565,7 @@ void MainAmplificationWindow::ExportIsosSVG(const QString& name)
 }
 
 // Enregistre une image de la version en escalier des isos actuelles
-void MainAmplificationWindow::ExportTerrain(const HeightField& hf, const QString& name)
+void MainWindow::ExportTerrain(const HeightField& hf, const QString& name)
 {
 	QString finalname = name;
 	if (name == "")
@@ -4623,7 +4592,7 @@ void MainAmplificationWindow::ExportTerrain(const HeightField& hf, const QString
 }
 
 // Enregistre une image de la version en escalier des isos actuelles
-void MainAmplificationWindow::ExportIsosStairs(const QString& name, int max_x, int max_y)
+void MainWindow::ExportIsosStairs(const QString& name, int max_x, int max_y)
 {
 	if (m_isos.Size() == 0)
 	{
@@ -4653,7 +4622,7 @@ void MainAmplificationWindow::ExportIsosStairs(const QString& name, int max_x, i
 }
 
 // Enregistre une image de la version en escalier smmoothed des isos actuelles
-void MainAmplificationWindow::ExportIsosSmoothStairs(const QString& name, int max_x, int max_y, int nb_smooth)
+void MainWindow::ExportIsosSmoothStairs(const QString& name, int max_x, int max_y, int nb_smooth)
 {
 	if (m_isos.Size() == 0)
 	{
@@ -4683,7 +4652,7 @@ void MainAmplificationWindow::ExportIsosSmoothStairs(const QString& name, int ma
 }
 
 // Enregistre une image de la version en escalier des isos actuelles
-void MainAmplificationWindow::ExportIsosInterpolate(const QString& name, int max_x, int max_y)
+void MainWindow::ExportIsosInterpolate(const QString& name, int max_x, int max_y)
 {
 	if (m_isos.Size() == 0)
 	{
@@ -4713,7 +4682,7 @@ void MainAmplificationWindow::ExportIsosInterpolate(const QString& name, int max
 }
 
 // Enregistre une image du terrain en version rendue CG (MSE + PBR)
-void MainAmplificationWindow::ExportMSEAndPBRRender(const QString& name, int interpolate_size, int n, double e, double d)
+void MainWindow::ExportMSEAndPBRRender(const QString& name, int interpolate_size, int n, double e, double d)
 {
 	if (m_isos.Size() == 0)
 	{
@@ -4747,7 +4716,7 @@ void MainAmplificationWindow::ExportMSEAndPBRRender(const QString& name, int int
 }
 
 // Enregistre une image du terrain actuel (meme sans iso) en version rendue CG (PBR only)
-void MainAmplificationWindow::ExportPBRRender(const RenderOpt& opt, const QString& name)
+void MainWindow::ExportPBRRender(const RenderOpt& opt, const QString& name)
 {
 	QString finalname = name;
 	if (name == "")
@@ -4768,7 +4737,7 @@ void MainAmplificationWindow::ExportPBRRender(const RenderOpt& opt, const QStrin
 }
 
 // Enregistre un histogramme donné
-void MainAmplificationWindow::ExportHistogram(const HistogramD& histo, const QString& name)
+void MainWindow::ExportHistogram(const HistogramD& histo, const QString& name)
 {
 	QString finalname = name;
 	if (name == "")
@@ -4791,14 +4760,13 @@ void MainAmplificationWindow::ExportHistogram(const HistogramD& histo, const QSt
 }
 
 // Enregistre l'histogramme utilisé pour la génération
-void MainAmplificationWindow::ExportHistogram(const QString& name)
+void MainWindow::ExportHistogram(const QString& name)
 {
 	ExportHistogram(m_generation_histogram, name);
 }
 
-
 // Enregistre le masque utilisé pour la génération
-void MainAmplificationWindow::ExportMaskSVG(const QString& name)
+void MainWindow::ExportMaskSVG(const QString& name)
 {
 	QString finalname = name;
 	if (name == "")
@@ -4819,7 +4787,7 @@ void MainAmplificationWindow::ExportMaskSVG(const QString& name)
 	System::SaveSvg(scene, finalname, m_generation_box.GetQtRect());
 }
 
-void MainAmplificationWindow::ExportMask(const QString& name)
+void MainWindow::ExportMask(const QString& name)
 {
 	QString finalname = name;
 	if (name == "")
@@ -4839,7 +4807,7 @@ void MainAmplificationWindow::ExportMask(const QString& name)
 }
 
 // Enregistre le masque utilisé pour la génération
-void MainAmplificationWindow::ExportNoise(const QString& name, int max_x, int max_y)
+void MainWindow::ExportNoise(const QString& name, int max_x, int max_y)
 {
 	QString finalname = name;
 	if (name == "")
@@ -4871,7 +4839,7 @@ void MainAmplificationWindow::ExportNoise(const QString& name, int max_x, int ma
 	image.save(finalname);
 }
 
-void MainAmplificationWindow::ExportGraph(const GraphPoisson& graph, const QString& name)
+void MainWindow::ExportGraph(const GraphPoisson& graph, const QString& name)
 {
 	if (graph.Size() == 0)
 	{
@@ -4905,13 +4873,13 @@ void MainAmplificationWindow::ExportGraph(const GraphPoisson& graph, const QStri
 }
 
 // Enregistre le graphe des zones de la génération
-void MainAmplificationWindow::ExportGraphZones(const QString& name)
+void MainWindow::ExportGraphZones(const QString& name)
 {
 	ExportGraph(m_generation_graph_zones, name);
 }
 
 // Enregistre le graphe des zones de la génération, mais comme x graphes différents (donc génère x images)
-void MainAmplificationWindow::ExportGraphZonesSplit(const QString& name)
+void MainWindow::ExportGraphZonesSplit(const QString& name)
 {
 	if (m_generation_graph_zones.Size() == 0)
 	{
@@ -4957,19 +4925,19 @@ void MainAmplificationWindow::ExportGraphZonesSplit(const QString& name)
 }
 
 // Enregistre le graphe des probas de la génération
-void MainAmplificationWindow::ExportGraphProba(const QString& name)
+void MainWindow::ExportGraphProba(const QString& name)
 {
 	ExportGraph(m_generation_graph_proba, name);
 }
 
 // Enregistre le graphe résultat de la génération (sans être passé dans l'histo)
-void MainAmplificationWindow::ExportGraphResult(const QString& name)
+void MainWindow::ExportGraphResult(const QString& name)
 {
 	ExportGraph(m_generation_graph_result, name);
 }
 
 // Enregistre le graphe résultat, mais en fonction des zones (donc génère x images)
-void MainAmplificationWindow::ExportGraphResultSplit(const QString& name)
+void MainWindow::ExportGraphResultSplit(const QString& name)
 {
 	if (m_generation_graph_result.Size() == 0 || m_generation_graph_zones.Size() == 0)
 	{
@@ -5029,7 +4997,7 @@ void MainAmplificationWindow::ExportGraphResultSplit(const QString& name)
 // Enregistre le graphe résultat de la génération (sans être passé dans l'histo) en plein d'image pour faire un gif animé de la génération
 // Create one gif per zone.
 // TODO: Qt cannot create a gif directly
-void MainAmplificationWindow::ExportGraphResultGif(const QString& name, int step)
+void MainWindow::ExportGraphResultGif(const QString& name, int step)
 {
 	if (m_generation_graph_result.Size() == 0 || m_generation_graph_zones.Size() == 0)
 	{
@@ -5090,13 +5058,13 @@ void MainAmplificationWindow::ExportGraphResultGif(const QString& name, int step
 }
 
 // Enregistre le graphe résultat de la génération après être passé dans l'histo
-void MainAmplificationWindow::ExportGraphHeights(const QString& name)
+void MainWindow::ExportGraphHeights(const QString& name)
 {
 	ExportGraph(m_generation_graph_heights, name);
 }
 
 // Enregistre x graphes correspondant à l'extraction de chaque zones
-void MainAmplificationWindow::ExportGraphsEachHeight(const QString& name)
+void MainWindow::ExportGraphsEachHeight(const QString& name)
 {
 	if (m_generation_graph_heights.Size() == 0)
 	{
@@ -5140,7 +5108,7 @@ void MainAmplificationWindow::ExportGraphsEachHeight(const QString& name)
 	}
 }
 
-void MainAmplificationWindow::ExportGraphWithoutInf(const GraphPoisson& graph, const QString& name)
+void MainWindow::ExportGraphWithoutInf(const GraphPoisson& graph, const QString& name)
 {
 	GraphPoisson::DisplayOptions opt_copy = m_extraction_opt.graph_opt;
 
@@ -5161,7 +5129,7 @@ void MainAmplificationWindow::ExportGraphWithoutInf(const GraphPoisson& graph, c
 }
 
 // Enregistre le graphe eden asc de la génération
-void MainAmplificationWindow::ExportGraphEdenAsc(const QString& name, int zone)
+void MainWindow::ExportGraphEdenAsc(const QString& name, int zone)
 {
 	if (m_generation_graph_eden_asc.size() <= zone || m_generation_graph_eden_asc[zone].Size() == 0)
 	{
@@ -5173,7 +5141,7 @@ void MainAmplificationWindow::ExportGraphEdenAsc(const QString& name, int zone)
 }
 
 // Enregistre le graphe eden desc de la génération
-void MainAmplificationWindow::ExportGraphEdenDesc(const QString& name, int zone)
+void MainWindow::ExportGraphEdenDesc(const QString& name, int zone)
 {
 	if (m_generation_graph_eden_desc.size() <= zone || m_generation_graph_eden_desc[zone].Size() == 0)
 	{
@@ -5185,7 +5153,7 @@ void MainAmplificationWindow::ExportGraphEdenDesc(const QString& name, int zone)
 }
 
 // Enregistre le graphe eden desc + asc final de la génération
-void MainAmplificationWindow::ExportGraphEdenFinal(const QString& name, int zone)
+void MainWindow::ExportGraphEdenFinal(const QString& name, int zone)
 {
 	if (m_generation_graph_eden_final.size() <= zone || m_generation_graph_eden_final[zone].Size() == 0)
 	{
@@ -5197,7 +5165,7 @@ void MainAmplificationWindow::ExportGraphEdenFinal(const QString& name, int zone
 }
 
 // Enregistre les graphes d'eden asc et desc
-void MainAmplificationWindow::ExportGraphsDoubleEdenGif(const QString& name, int step)
+void MainWindow::ExportGraphsDoubleEdenGif(const QString& name, int step)
 {
 	// TODO add warnings for graphs not existing/not the same size
 
@@ -5259,7 +5227,7 @@ void MainAmplificationWindow::ExportGraphsDoubleEdenGif(const QString& name, int
 }
 
 // Enregistre toutes les images demandées (ui), derrière le prefix
-void MainAmplificationWindow::ExportAll(const QString& prefix)
+void MainWindow::ExportAll(const QString& prefix)
 {
 	if (m_extraction_opt.extract_isos)
 		ExportIsosSVG(prefix + "_isos.svg");
@@ -5292,7 +5260,7 @@ void MainAmplificationWindow::ExportAll(const QString& prefix)
 ///////////////////////////////
 
 // Construit le graphe en fonction du masque et du radius
-void MainAmplificationWindow::CreateGenerationZones()
+void MainWindow::CreateGenerationZones()
 {
 	m_generation_graph_zones = GraphPoisson(m_generation_mask, m_generation_radius);
 	m_generation_graph_zones.SetStrictValueFromScalarField(m_generation_mask);
@@ -5300,13 +5268,13 @@ void MainAmplificationWindow::CreateGenerationZones()
 }
 
 // Reset les valeurs du graph de zones, lorsque le masque est le même que précédemment, mais avec différentes zones
-void MainAmplificationWindow::ResetGenerationZones()
+void MainWindow::ResetGenerationZones()
 {
 	m_generation_graph_zones.SetStrictValueFromScalarField(m_generation_mask);
 	qDebug() << "[Zones graph] nb particles:" << m_generation_graph_zones.Size();
 }
 
-void MainAmplificationWindow::GenerateV1(int debug, const QString& root)
+void MainWindow::GenerateV1(int debug, const QString& root)
 {
 	IsoVectoGenerationV1 gen(m_generation_graph_zones, m_generation_noise);
 	gen.Generate(debug, root);
@@ -5314,7 +5282,7 @@ void MainAmplificationWindow::GenerateV1(int debug, const QString& root)
 	m_generation_graph_proba = gen.Proba();
 }
 
-void MainAmplificationWindow::GenerateV2(int debug, const QString& root)
+void MainWindow::GenerateV2(int debug, const QString& root)
 {
 	IsoVectoGenerationV2 gen(m_generation_graph_zones, m_generation_noise);
 	gen.Generate(debug, root);
@@ -5322,7 +5290,7 @@ void MainAmplificationWindow::GenerateV2(int debug, const QString& root)
 	m_generation_graph_proba = gen.Proba();
 }
 
-void MainAmplificationWindow::GenerateV3(int debug, const QString& root)
+void MainWindow::GenerateV3(int debug, const QString& root)
 {
 	IsoVectoGenerationV3 gen(m_generation_graph_zones, m_generation_noise);
 	gen.Generate(debug, root);
@@ -5333,7 +5301,7 @@ void MainAmplificationWindow::GenerateV3(int debug, const QString& root)
 	m_generation_graph_eden_final = gen.EdenFinal();
 }
 
-void MainAmplificationWindow::GenerateV3Endo(int debug, const QString& root)
+void MainWindow::GenerateV3Endo(int debug, const QString& root)
 {
 	IsoVectoGenerationV3 gen(m_generation_graph_zones, m_generation_noise, true);
 	gen.Generate(debug, root);
@@ -5342,7 +5310,7 @@ void MainAmplificationWindow::GenerateV3Endo(int debug, const QString& root)
 }
 
 // Applique la génération en fonction des paramètres donnés
-void MainAmplificationWindow::Generate(int version)
+void MainWindow::Generate(int version)
 {
 	// Creation of zones
 	QElapsedTimer timer;
@@ -5395,7 +5363,7 @@ void MainAmplificationWindow::Generate(int version)
 }
 
 // Change le terrain en fonction des isos
-void MainAmplificationWindow::RecomputeTerrainFromIsos(bool resetView)
+void MainWindow::RecomputeTerrainFromIsos(bool resetView)
 {
 	if (!m_isos.IsEmpty())
 	{
@@ -5440,7 +5408,7 @@ void MainAmplificationWindow::RecomputeTerrainFromIsos(bool resetView)
 }
 
 // Change les isos
-void MainAmplificationWindow::SetIsos(const IsoLines& newIsos, bool resetView, bool saveInHistoric)
+void MainWindow::SetIsos(const IsoLines& newIsos, bool resetView, bool saveInHistoric)
 {
 	m_isos = newIsos;
 	emit isoChanged(&m_isos);
@@ -5462,7 +5430,7 @@ void MainAmplificationWindow::SetIsos(const IsoLines& newIsos, bool resetView, b
 }
 
 // Change les isos en fonction de l'histogramme choisi, ATTENTION, cela va supprimer toutes les modifications faites
-void MainAmplificationWindow::SetIsosFromHistogram()
+void MainWindow::SetIsosFromHistogram()
 {
 	// Pas encore de génération
 	if (m_generation_graph_result.Size() == 0)
@@ -5476,14 +5444,14 @@ void MainAmplificationWindow::SetIsosFromHistogram()
 }
 
 // Change les isos pour être en accord avec le masque actuel
-void MainAmplificationWindow::SetIsosFromMask()
+void MainWindow::SetIsosFromMask()
 {
 	IsoLines isos(m_generation_mask, m_uiw.mask_nb_isos_edit->text().toInt());
 	SetIsos(isos);
 }
 
 // Ajoute une isos � l'ensemble d'iso actuel
-void MainAmplificationWindow::AddIso(const Polygon2 poly)
+void MainWindow::AddIso(const Polygon2 poly)
 {
 	IsoLinePoly ilp(poly, 0);
 	ilp.ChangeOrder(true); // in case the polygon is defined in the wrong order
@@ -5492,7 +5460,7 @@ void MainAmplificationWindow::AddIso(const Polygon2 poly)
 }
 
 // Change the view with the given polygon and be ready for the generation
-void MainAmplificationWindow::ResetViewWithPolygon(const Polygon2& poly)
+void MainWindow::ResetViewWithPolygon(const Polygon2& poly)
 {
 	Box2 b = poly.GetBox().ScaledCentered(1.1);
 	ChangeViewBox(b);
@@ -5502,7 +5470,7 @@ void MainAmplificationWindow::ResetViewWithPolygon(const Polygon2& poly)
 }
 
 // Remove isos from the scene
-void MainAmplificationWindow::CleanIsos()
+void MainWindow::CleanIsos()
 {
 	SetIsos({});
 	m_uiw.iso_view->ClearView();
@@ -5510,7 +5478,7 @@ void MainAmplificationWindow::CleanIsos()
 }
 
 // Apply MSE on the terrain
-void MainAmplificationWindow::MSE(int n, double e, double d)
+void MainWindow::MSE(int n, double e, double d)
 {
 	// MSE does not apply to value below 0, so we have to rescale it.
 	double a, b;
@@ -5519,11 +5487,10 @@ void MainAmplificationWindow::MSE(int n, double e, double d)
 	m_hf.ErosionAmpli(n, e, d);
 	m_hf.SetRange(a, b);
 	UpdateGeometry();
-	//ResetCamera();
 }
 
 // Remove every isos with a length < min_dist
-void MainAmplificationWindow::RemoveSmallIsos(double min_dist)
+void MainWindow::RemoveSmallIsos(double min_dist)
 {
 	QVector<IsoLinePoly> isos;
 
@@ -5539,20 +5506,20 @@ void MainAmplificationWindow::RemoveSmallIsos(double min_dist)
 }
 
 // Resample isos
-void MainAmplificationWindow::ResampleIsos(double min_dist)
+void MainWindow::ResampleIsos(double min_dist)
 {
 	m_isos.Resample(min_dist);
 	SetIsos(m_isos, false, true);
 }
 
 // Resample isos with cubic spline
-void MainAmplificationWindow::ResampleSplineIsos(double min_dist)
+void MainWindow::ResampleSplineIsos(double min_dist)
 {
 	m_isos.ResampleSpline(min_dist);
 	SetIsos(m_isos, false, true);
 }
 
-void MainAmplificationWindow::SmoothIsos(double dist, double delta, int nb_iter)
+void MainWindow::SmoothIsos(double dist, double delta, int nb_iter)
 {
 	IsoLines copy = m_isos;
 	copy.Smooth(dist, delta, nb_iter);
@@ -5560,7 +5527,7 @@ void MainAmplificationWindow::SmoothIsos(double dist, double delta, int nb_iter)
 	SetIsos(copy, false, true);
 }
 
-void MainAmplificationWindow::SmoothInsidePoint(const Vector2& point)
+void MainWindow::SmoothInsidePoint(const Vector2& point)
 {
 	IsoLines copy = m_isos;
 	for (int ind = 0; ind < m_isos.Size(); ++ind)
@@ -5571,7 +5538,7 @@ void MainAmplificationWindow::SmoothInsidePoint(const Vector2& point)
 	SetIsos(copy);
 }
 
-void MainAmplificationWindow::DisplacementAlongCurve(const QVector<Vector2>& path, double radius, double strength, double pow)
+void MainWindow::DisplacementAlongCurve(const QVector<Vector2>& path, double radius, double strength, double pow)
 {
 	IsoLines copy = m_isos;
 	for (int ind = 0; ind < m_isos.Size(); ++ind)
@@ -5583,7 +5550,7 @@ void MainAmplificationWindow::DisplacementAlongCurve(const QVector<Vector2>& pat
 }
 
 // Bouge les isos actuels
-void MainAmplificationWindow::Warp(const QVector<Vector2>& points, double radius, double strength, double pow, double factor)
+void MainWindow::Warp(const QVector<Vector2>& points, double radius, double strength, double pow, double factor)
 {
 	WarpingIsos warp(m_isos);
 	warp.SetPathPoints(points);
@@ -5591,7 +5558,7 @@ void MainAmplificationWindow::Warp(const QVector<Vector2>& points, double radius
 	SetIsos(warp.WarpedIsos(), false, true);
 }
 
-void MainAmplificationWindow::ViewPathFinished(const QVector<Vector2>& path)
+void MainWindow::ViewPathFinished(const QVector<Vector2>& path)
 {
 	//cout << "QVector<Vector2> path = {" << endl;
 	//for (const Vector2& p: path)
@@ -5610,7 +5577,7 @@ void MainAmplificationWindow::ViewPathFinished(const QVector<Vector2>& path)
 		SaveCurrentIsolines();
 }
 
-void MainAmplificationWindow::ViewRightClick(const Vector2& point)
+void MainWindow::ViewRightClick(const Vector2& point)
 {
 	if (m_current_tool == SMOOTHING)
 		SmoothInsidePoint(point);
@@ -5619,7 +5586,7 @@ void MainAmplificationWindow::ViewRightClick(const Vector2& point)
 }
 
 // Donner des isolines à cette méthode pour qu'elle protège les points protégé
-void MainAmplificationWindow::ProtectIsos(IsoLines& isos)
+void MainWindow::ProtectIsos(IsoLines& isos)
 {
 	if (&isos == &m_isos)
 	{
@@ -5658,7 +5625,7 @@ void MainAmplificationWindow::ProtectIsos(IsoLines& isos)
 }
 
 // Return true if a point is protected
-bool MainAmplificationWindow::WithinProtectZone(const Vector2& point)
+bool MainWindow::WithinProtectZone(const Vector2& point)
 {
 	for (int i = 0; i < m_protected_zones.size(); ++i)
 	{
@@ -5674,7 +5641,7 @@ bool MainAmplificationWindow::WithinProtectZone(const Vector2& point)
 }
 
 // Add a protection zone
-void MainAmplificationWindow::ProtectZone(const Vector2& point)
+void MainWindow::ProtectZone(const Vector2& point)
 {
 	if (!m_protecting_remove)
 	{
@@ -5699,7 +5666,7 @@ void MainAmplificationWindow::ProtectZone(const Vector2& point)
 }
 
 // Protect every small isolines
-void MainAmplificationWindow::ProtectSmallIsolines(double max_length)
+void MainWindow::ProtectSmallIsolines(double max_length)
 {
 	for (int i = 0; i < m_isos.Size(); ++i)
 	{
@@ -5712,7 +5679,7 @@ void MainAmplificationWindow::ProtectSmallIsolines(double max_length)
 
 // Protect one specific iso
 // TODO: faire en sorte que les isos protégés soit pas fait comme des cercles
-void MainAmplificationWindow::ProtectIsoline(int id)
+void MainWindow::ProtectIsoline(int id)
 {
 	if (id >= m_isos.Size())
 	{
@@ -5732,19 +5699,19 @@ void MainAmplificationWindow::ProtectIsoline(int id)
 }
 
 // Delete every protection zones
-void MainAmplificationWindow::CleanProtectedZones()
+void MainWindow::CleanProtectedZones()
 {
 	m_protected_zones.clear();
 	m_uiw.iso_view->SetProtectedZones(&m_protected_zones);
 }
 
-void MainAmplificationWindow::RemoveIsolines(const QSet<int>& toRemove, bool recursive)
+void MainWindow::RemoveIsolines(const QSet<int>& toRemove, bool recursive)
 {
 	m_isos.Remove(toRemove, recursive);
 	SetIsos(m_isos, false, true);
 }
 
-void MainAmplificationWindow::RemoveSmallIsolines(double max_length)
+void MainWindow::RemoveSmallIsolines(double max_length)
 {
 	QSet<int> toRemove;
 	for (int i = 0; i < m_isos.Size(); ++i)
@@ -5754,19 +5721,19 @@ void MainAmplificationWindow::RemoveSmallIsolines(double max_length)
 	RemoveIsolines(toRemove);
 }
 
-void MainAmplificationWindow::RemoveSelectedIsolines()
+void MainWindow::RemoveSelectedIsolines()
 {
 	RemoveIsolines(m_uiw.iso_view->GetSelectedIsos());
 }
 
-void MainAmplificationWindow::SaveCurrentIsolines()
+void MainWindow::SaveCurrentIsolines()
 {
 	m_isos_historic = m_isos_historic.mid(0, m_current_historic_index + 1);
 	m_isos_historic.append(m_isos);
 	m_current_historic_index++;
 }
 
-void MainAmplificationWindow::Undo()
+void MainWindow::Undo()
 {
 	if (m_current_historic_index > 0)
 	{
@@ -5775,7 +5742,7 @@ void MainAmplificationWindow::Undo()
 	}
 }
 
-void MainAmplificationWindow::Redo()
+void MainWindow::Redo()
 {
 	if (m_current_historic_index < m_isos_historic.size() - 1)
 	{

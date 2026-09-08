@@ -2,12 +2,13 @@
 #include "graph.h"
 #include "histogramd.h"
 #include "eden.h"
+#include "random.h"
 
 class ArticleUtils
 {
 public:
 	/*
-	 * Affichage de l'avancée de la génération
+	 * Affichage de l'avancï¿½e de la gï¿½nï¿½ration
 	 */
 	static QGraphicsScene* GifForArticle(const GraphPoisson& Z, double noVal, double min, double max, int lastChosen, bool displayBorder = true, const AnalyticPalette& palette = AnalyticPalette(3));
 	static void ArticleGif(const GraphPoisson& Z, int lastChosen, const QString& root);
