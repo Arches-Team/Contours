@@ -5462,11 +5462,18 @@ void MainWindow::AddIso(const Polygon2 poly)
 // Change the view with the given polygon and be ready for the generation
 void MainWindow::ResetViewWithPolygon(const Polygon2& poly)
 {
-	Box2 b = poly.GetBox().ScaledCentered(1.1);
+	// Recenter the polygon on the origin first: the camera's look-at point
+	// stays wherever the "At x/y/z" fields are (usually 0,0,0) and is not
+	// updated from the view/generation box, so if the polygon's own raw
+	// coordinates are not centered on the origin the camera ends up looking
+	// away from the terrain.
+	Polygon2 centered = poly.Translated(-poly.GetBox().Center());
+	Box2 b = centered.GetBox().ScaledCentered(1.1);
 	ChangeViewBox(b);
 	ChangeGenBox(b);
-	SetIsos(IsoLines({ poly }), true, true);
+	SetIsos(IsoLines({ centered }), true, true);
 	ChangeMaskFromCurrentIsos();
+	Generate();
 }
 
 // Remove isos from the scene

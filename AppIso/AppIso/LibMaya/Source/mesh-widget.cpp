@@ -598,16 +598,6 @@ void MeshWidget::keyPressEvent(QKeyEvent* e)
     if (e->modifiers() & Qt::AltModifier)
       renderCameraPanel = !renderCameraPanel;
     break;
-  case Qt::Key_B:
-    // Alt + B: Bounding box
-    if (e->modifiers() & Qt::AltModifier)
-    {
-      static bool useBboxGlobal = false;
-      useBboxGlobal = !useBboxGlobal;
-      for (MeshGL* it : boxObjects)
-        it->enabled = useBboxGlobal;
-    }
-    break;
   default:
     QOpenGLWidget::keyPressEvent(e);
   }

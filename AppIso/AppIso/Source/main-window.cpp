@@ -200,7 +200,6 @@ void MainWindow::CreateActions()
 			RemoveSelectedIsolines();
 	});
 
-	connect(m_uiw.mse_button, &QPushButton::clicked, this, [this]() { MSE(); });
 	connect(m_uiw.resample_isos_button, &QPushButton::clicked, this, [this]() { ResampleIsos(m_edition_point_min_dist); });
 	connect(m_uiw.resample_spline_isos_button, &QPushButton::clicked, this, [this]() { ResampleSplineIsos(m_edition_point_min_dist); });
 

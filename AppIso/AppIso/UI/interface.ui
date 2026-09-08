@@ -1998,13 +1998,6 @@ QProgressBar::chunk
            </property>
           </widget>
          </item>
-         <item row="9" column="0">
-          <widget class="QPushButton" name="mse_button">
-           <property name="text">
-            <string>MSE</string>
-           </property>
-          </widget>
-         </item>
          <item row="5" column="0">
           <widget class="QPushButton" name="load_hawaii_poly_button">
            <property name="text">
@@ -2221,20 +2214,6 @@ QProgressBar::chunk
          <widget class="QPushButton" name="resetCamera">
           <property name="text">
            <string>Reset Camera</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QCheckBox" name="watershed">
-          <property name="text">
-           <string>watershed</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QCheckBox" name="white_sky">
-          <property name="text">
-           <string>white sky</string>
           </property>
          </widget>
         </item>
@@ -2456,83 +2435,6 @@ QProgressBar::chunk
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1329</width>
-     <height>35</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <widget class="QMenu" name="menuExport">
-     <property name="title">
-      <string>Export</string>
-     </property>
-     <addaction name="actionExport_obj"/>
-     <addaction name="actionExport_ma"/>
-     <addaction name="actionExport_svg"/>
-     <addaction name="actionSphere_Tracing_png"/>
-    </widget>
-    <addaction name="menuExport"/>
-    <addaction name="actionLoad_ma"/>
-    <addaction name="separator"/>
-    <addaction name="actionExit"/>
-   </widget>
-   <addaction name="menuFile"/>
-  </widget>
-  <action name="actionExit">
-   <property name="text">
-    <string>Exit</string>
-   </property>
-   <property name="shortcut">
-    <string>Esc</string>
-   </property>
-  </action>
-  <action name="actionNew_Scene">
-   <property name="text">
-    <string>New Scene</string>
-   </property>
-  </action>
-  <action name="actionExport_obj">
-   <property name="text">
-    <string>OBJ File (.obj)</string>
-   </property>
-  </action>
-  <action name="actionExport_ma">
-   <property name="text">
-    <string>Maya File (.ma)</string>
-   </property>
-  </action>
-  <action name="actionLoad_ma">
-   <property name="text">
-    <string>Load</string>
-   </property>
-  </action>
-  <action name="actionGL">
-   <property name="text">
-    <string>GL</string>
-   </property>
-  </action>
-  <action name="actionVectorized">
-   <property name="text">
-    <string>Vectorized</string>
-   </property>
-  </action>
-  <action name="actionExport_svg">
-   <property name="text">
-    <string>SVG File (.svg)</string>
-   </property>
-  </action>
-  <action name="actionSphere_Tracing_png">
-   <property name="text">
-    <string>Sphere Tracing (.png)</string>
-   </property>
-  </action>
  </widget>
  <customwidgets>
   <customwidget>

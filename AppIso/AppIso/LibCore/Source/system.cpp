@@ -7,27 +7,17 @@
 
 #include "cpu.h"
 
-//   // Use the following code to save as SVG
-//   /*
-//   //#include <QtSvg/QSvgGenerator>
+#include <algorithm>
+
+// Largest side (in declared SVG units) the exported file is allowed to claim as its
+// physical width/height. A terrain box tens of kilometers wide would otherwise produce
+// an SVG declaring itself tens of thousands of units in size, which most viewers either
+// choke on or refuse to render. The viewBox keeps the full coordinate range, so the
+// vector content itself loses no precision, only the declared physical size is capped.
+static const int MaxSvgDeclaredSize = 2048;
 
 void System::SaveSvg(QGraphicsScene* s, const QString& name, const QRectF& rect)
 {
-  /*
-  QRectF newSceneRect;
-  QGraphicsScene* tempScene = new QGraphicsScene(s->sceneRect());
-  tempScene->setBackgroundBrush(QBrush(Qt::transparent));
-  tempScene->setItemIndexMethod(QGraphicsScene::BspTreeIndex);
-
-  foreach(QGraphicsItem * item, s->items())
-  {
-    newSceneRect |= item->mapToScene(item->boundingRect()).boundingRect();
-    tempScene->addItem(item);
-  }
-  tempScene->setSceneRect(newSceneRect);
-  tempScene->clearSelection();
-  QSize sceneSize = newSceneRect.size().toSize();
-  */
   QRectF sceneBox;
   if (rect.isNull())
     sceneBox = s->sceneRect();
@@ -37,9 +27,17 @@ void System::SaveSvg(QGraphicsScene* s, const QString& name, const QRectF& rect)
   QSize sceneSize = sceneBox.size().toSize();
   QRectF targetBox(0, 0, sceneSize.width(), sceneSize.height());
 
+  QSize outputSize = sceneSize;
+  int largestSide = std::max(outputSize.width(), outputSize.height());
+  if (largestSide > MaxSvgDeclaredSize)
+  {
+    double scale = double(MaxSvgDeclaredSize) / double(largestSide);
+    outputSize = QSize(std::max(1, int(outputSize.width() * scale)), std::max(1, int(outputSize.height() * scale)));
+  }
+
   QSvgGenerator generator;
   generator.setFileName(name);
-  generator.setSize(sceneSize);
+  generator.setSize(outputSize);
   generator.setViewBox(targetBox);
   generator.setDescription(QObject::tr("SVG Export"));
   generator.setTitle(name);
@@ -48,9 +46,6 @@ void System::SaveSvg(QGraphicsScene* s, const QString& name, const QRectF& rect)
   painter.begin(&generator);
   s->render(&painter, targetBox, sceneBox, Qt::IgnoreAspectRatio);
   painter.end();
-
-  //tempScene->clear();
-  //delete tempScene;
 }
 
 /*!
