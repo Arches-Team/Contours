@@ -440,6 +440,9 @@
     <ClCompile Include="Source\main-window.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\iso-view-moc.cpp" />
+    <ClCompile Include="Source\main-window-moc.cpp" />
+    <ClCompile Include="LibMaya\Source\realtime-moc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\interface.ui">
@@ -451,6 +454,7 @@
     <CustomBuild Include="Include\main-window.h">
       <Filter>Include</Filter>
     </CustomBuild>
+    <CustomBuild Include="LibMaya\Include\realtime.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LibCore\Shaders\diffusion.glsl">

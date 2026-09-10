@@ -21,13 +21,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -74,6 +74,8 @@
       <Command>
         "$(QtDir)\bin\windeployqt.exe" --debug "$(TargetPath)"
         copy /Y "$(ProjectDir)LibGL\bin\glew32.dll" "$(OutDir)glew32.dll"
+        if not exist "$(OutDir)Data" mklink /J "$(OutDir)Data" "$(SolutionDir)Data"
+        if not exist "$(OutDir)Images" mklink /J "$(OutDir)Images" "$(SolutionDir)Images"
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -113,6 +115,8 @@
       <Command>
         "$(QtDir)\bin\windeployqt.exe" --release "$(TargetPath)"
         copy /Y "$(ProjectDir)LibGL\bin\glew32.dll" "$(OutDir)glew32.dll"
+        if not exist "$(OutDir)Data" mklink /J "$(OutDir)Data" "$(SolutionDir)Data"
+        if not exist "$(OutDir)Images" mklink /J "$(OutDir)Images" "$(SolutionDir)Images"
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -132,7 +136,6 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Source\%(Filename)-moc.cpp</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QtDir)\bin\moc.exe</AdditionalInputs>
-
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Source\%(Filename)-moc.cpp</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QtDir)\bin\moc.exe -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
@@ -144,7 +147,6 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Source\%(Filename)-moc.cpp</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QtDir)\bin\moc.exe</AdditionalInputs>
-
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QtDir)\bin\moc.exe -f%(Filename)%(Extension) Include\%(Filename)%(Extension) -o Source\%(Filename)-moc.cpp</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing  Include\%(Filename)%(Extension)  into  Source\%(Filename)-moc.cpp</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Source\%(Filename)-moc.cpp</Outputs>
@@ -199,7 +201,6 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing  LibMaya\Include\%(Filename)%(Extension)  into  LibMaya\Source\%(Filename)-moc.cpp</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">LibMaya\Source\%(Filename)-moc.cpp</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QtDir)\bin\moc.exe</AdditionalInputs>
-
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">LibMaya\Source\%(Filename)-moc.cpp</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing  LibMaya\Include\%(Filename)%(Extension)  into  LibMaya\Source\%(Filename)-moc.cpp</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QtDir)\bin\moc.exe -f%(Filename)%(Extension) LibMaya\Include\%(Filename)%(Extension) -o LibMaya\Source\%(Filename)-moc.cpp</Command>

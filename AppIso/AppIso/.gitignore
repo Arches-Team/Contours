@@ -3,3 +3,8 @@ Temp/
 Source/*-moc.cpp
 Include/uic_*.h
 Qt.props
+
+# CMake
+/build/
+CMakeCache.txt
+CMakeFiles/

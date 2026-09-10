@@ -9,13 +9,11 @@ int main(int argc, char *argv[])
 
 	MainWindow mainWin;
 
-    // To display the app in second screen
-    QList<QScreen*> screens = QGuiApplication::screens();
-    if (screens.size() > 1) {
-        QRect screenGeometry = screens.at(1)->geometry();
-        mainWin.setGeometry(screenGeometry.x() + 50, screenGeometry.y() + 50, 800, 600);
-    }
+    // Open on the second screen if there is one, otherwise the main screen.
+    const QList<QScreen*> screens = QGuiApplication::screens();
+    QScreen* targetScreen = (screens.size() > 1) ? screens.at(1) : QGuiApplication::primaryScreen();
 
+    mainWin.move(targetScreen->availableGeometry().topLeft());
     mainWin.showMaximized();
 	return app.exec();
 }

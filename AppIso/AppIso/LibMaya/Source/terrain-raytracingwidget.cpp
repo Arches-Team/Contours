@@ -3,6 +3,7 @@
 #include "segment.h"
 #include "cpu.h"
 
+#include <QtCore/QElapsedTimer>
 #include <QtGui/QKeyEvent>
 
 /*!

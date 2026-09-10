@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 #include "glew.h"
 #else
 #include "GL/glew.h"

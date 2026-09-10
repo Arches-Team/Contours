@@ -13,6 +13,8 @@
 
 #include <algorithm>
 #include <random>
+
+#include <QtCore/QElapsedTimer>
 #include <QtWidgets/QFileDialog>
 
 using namespace std;

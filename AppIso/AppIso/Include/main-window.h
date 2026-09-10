@@ -308,12 +308,18 @@ protected:
 	QVector<GraphPoisson> m_generation_graph_eden_final;
 
 	// for ui and browser research
-	QString m_histogram_directory = "../Data/dems/";
+	// Resolved relative to the executable rather than the process working directory,
+	// which varies depending on how the app is launched (Visual Studio, double-click,
+	// shortcut, ...). Data/ and Images/ are placed next to the executable (as a
+	// directory junction on Windows) by both the vcxproj and CMakeLists.txt post-build
+	// steps, so this stays correct regardless of how deep the build output directory
+	// is nested.
+	QString m_histogram_directory = QCoreApplication::applicationDirPath() + "/Data/dems/";
 	QString m_generation_histogram_file;
-	QString m_noise_directory = "../Images/input/";
+	QString m_noise_directory = QCoreApplication::applicationDirPath() + "/Images/input/";
 	QString m_generation_noise_file;
 	ScalarField2 m_generation_noise_without_pow;
-	QString m_mask_directory = "../Data/dems/";
+	QString m_mask_directory = QCoreApplication::applicationDirPath() + "/Data/dems/";
 	QString m_generation_mask_file;
 
 	// param for edition
