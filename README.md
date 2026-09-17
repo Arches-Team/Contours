@@ -85,3 +85,15 @@ Architecture      : x64
 Compilers         : MSVC (Visual Studio 2022) / GCC / Clang
 Qt                : Qt 6, 64-bit
 ```
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+This software uses the Qt Open Source framework.
+
+Qt is licensed under the GNU Lesser General Public License (LGPL) v3 (or LGPL v2.1, depending on the Qt modules used). The Qt libraries are not covered by the MIT License of this project and remain subject to their own license terms.
+
+If you redistribute this application in binary form, you must comply with the applicable Qt LGPL requirements, including providing the required Qt license notices and allowing users to replace or relink the Qt libraries where required by the LGPL.
